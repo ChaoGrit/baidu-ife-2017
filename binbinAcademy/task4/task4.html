@@ -3,21 +3,122 @@
   <head>
     <meta charset="utf-8">
     <title>IFE JavaScript Task 01</title>
+    <style type="text/css">
+      .item{
+        display: inline-block;
+        margin: 0 10px;
+        padding: 10px 20px;
+        background-color: red;
+        color: #fff;
+        cursor: pointer;
+      }
+    </style>
   </head>
 <body>
 
-  <input placeholder="请输入数字" />
-  <button>左侧入</button>
-  <button>右侧入</button>
-  <button>左侧出</button>
-  <button>右侧出</button>
+  <input id="input" placeholder="请输入数字" />
+  <button id="addLeft">左侧入</button>
+  <button id="addRight">右侧入</button>
+  <button id="removeLeft">左侧出</button>
+  <button id="removeRight">右侧出</button>
 
   <ul id="queue">
     
   </ul>
 
 <script type="text/javascript">
-
+  var EventUtil = {//封装绑定和解绑函数
+    addHandler: function(element,type,handler){
+      if (element.addEventListener) {
+        element.addEventListener(type,handler,false);
+      }else if(element.attachEvent) {
+        element.attachEvent("on" + type,handler)
+      }else{
+        element["on" + type] = handler;
+      }
+    },
+    removeHandler: function(element,type,handler){
+      if (element.removeEventListener) {
+        element.removeEventListener(type,handler,false);
+      }else if(element.detachEvent) {
+        element.detachEvent("on" + type,handler)
+      }else{
+        element["on" + type] = null;
+      }
+    }
+  }
+  function inserAfter(newElement,targetElement){//向后插入函数
+    var parent = targetElement.parentNode;
+    if (targetElement.nextSiblings) {
+      parent.insertBefore(newElement,targetElement.nextSiblings);
+    }else{
+      parent.appendChild(newElement);
+    }
+  }
+  function getInputVal(){
+    var inputVal = document.getElementById('input').value;
+    if (parseInt(inputVal)) {
+      return inputVal;
+    }else{
+      console.error('please enter a number');
+    }
+  }
+  function clearInputVal(){
+    var input = document.getElementById('input');
+    input.value = '';
+  }
+  function addLi(direction){
+    var val = getInputVal();
+    if (!val) {
+      return false;
+    }
+    var li = document.createElement('li');
+    li.innerText = val;
+    // var content = document.createTextNode(val);
+    // li.appendChild(content);
+    li.setAttribute('class','item');
+    EventUtil.addHandler(li,'click',function(){
+      // console.log(this)
+      this.remove();
+    })
+    if (direction == 'left') {
+      queue.insertBefore(li,queue.firstChild);
+    }else{
+      queue.appendChild(li);
+    }
+    clearInputVal();
+  }
+  function removeLi(direction){
+    if (!queue.firstChild) {
+      return false;
+    }
+    if (direction == 'left') {
+      alert(queue.firstChild.innerText);
+      var left = queue.firstElementChild.remove();
+    }else if (direction == 'right') {
+      // console.log(queue.lastChild);
+      alert(queue.lastElementChild.innerText);
+      // queue.lastChild.remove();//会获取到包括空格在内的
+      queue.lastElementChild.remove();//会获取到包括空格在内的
+    }
+  }
+  var queue = document.getElementById('queue');
+  var addLeft = document.getElementById('addLeft');
+  var addRight = document.getElementById('addRight');
+  var removeLeft = document.getElementById('removeLeft');
+  var removeRight = document.getElementById('removeRight');
+  EventUtil.addHandler(addLeft,'click',function(){
+    addLi('left')
+  });
+  EventUtil.addHandler(addRight,'click',function(){
+    addLi('right')
+  });
+  EventUtil.addHandler(removeLeft,'click',function(){
+    removeLi('left');
+  });
+  EventUtil.addHandler(removeRight,'click',function(){
+    removeLi('right');
+  });
 
 </script>
 </body>
