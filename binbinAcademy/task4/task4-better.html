@@ -8,8 +8,8 @@
         display: inline-block;
         margin: 0 10px;
         padding: 10px 20px;
-        background-color: red;
-        color: #fff;
+        background-color: #cd4a48;
+        color: #f3f6f7;
         cursor: pointer;
       }
     </style>
@@ -47,17 +47,9 @@
       }
     }
   }
-  function inserAfter(newElement,targetElement){//向后插入函数
-    var parent = targetElement.parentNode;
-    if (targetElement.nextSiblings) {
-      parent.insertBefore(newElement,targetElement.nextSiblings);
-    }else{
-      parent.appendChild(newElement);
-    }
-  }
   function getInputVal(){
     var inputVal = document.getElementById('input').value;
-    if (parseInt(inputVal)) {//有bug，如输入3e
+    if (Number(inputVal)) {
       return inputVal;
     }else{
       console.error('please enter a number');
@@ -74,31 +66,28 @@
     }
     var li = document.createElement('li');
     li.innerText = val;
-    // var content = document.createTextNode(val);
-    // li.appendChild(content);
     li.setAttribute('class','item');
-    EventUtil.addHandler(li,'click',function(){//挨个绑定
-      // console.log(this)
-      this.remove();
-    })
+    // EventUtil.addHandler(li,'click',function(){
+    //   this.remove();
+    // });
     if (direction == 'left') {
       queue.insertBefore(li,queue.firstChild);
     }else{
       queue.appendChild(li);
     }
     clearInputVal();
+    input.focus();//方便操作
   }
   function removeLi(direction){
-    if (!queue.firstChild) {//有bug，无元素的时候也可清除
+    if (!queue.firstElementChild || !queue.lastElementChild) {
+      alert('There is no number to remove');
       return false;
     }
     if (direction == 'left') {
-      alert(queue.firstChild.innerText);
+      alert(queue.firstElementChild.innerText);
       var left = queue.firstElementChild.remove();
     }else if (direction == 'right') {
-      // console.log(queue.lastChild);
       alert(queue.lastElementChild.innerText);
-      // queue.lastChild.remove();//会获取到包括空格在内的
       queue.lastElementChild.remove();//获取最后一个element
     }
   }
@@ -118,6 +107,13 @@
   });
   EventUtil.addHandler(removeRight,'click',function(){
     removeLi('right');
+  });
+  EventUtil.addHandler(queue,'click',function(e){//事件冒泡的方式绑定，如果放在li上市绑定不到的。
+    // console.log(this == e.currentTarget);//true
+    // console.log(this == e.target);//false
+    if (e.target.className == 'item') {//不作判断的话会把queue Remove掉
+      e.target.remove();
+    }
   });
 
 </script>
