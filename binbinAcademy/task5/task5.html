@@ -6,11 +6,11 @@
     <style type="text/css">
       .item{
         display: inline-block;
-        margin: 0 10px;
-        padding: 10px 20px;
+        margin: 0 3px;
         background-color: #cd4a48;
         color: #f3f6f7;
         cursor: pointer;
+        vertical-align: bottom;
       }
     </style>
   </head>
@@ -21,6 +21,7 @@
   <button id="addRight">右侧入</button>
   <button id="removeLeft">左侧出</button>
   <button id="removeRight">右侧出</button>
+  <button id="sort">排序</button>
 
   <ul id="queue">
     
@@ -47,25 +48,34 @@
       }
     }
   }
-  function getInputVal(){
+  function getInputVal(){//获取输入框值，包括校验
     var inputVal = document.getElementById('input').value;
-    if (Number(inputVal)) {
+    if (Number(inputVal) >= 10 && Number(inputVal) <= 100) {
       return inputVal;
+    }else if (Number(inputVal)) {
+      alert('please enter a number between 10 and 100')
     }else{
       console.error('please enter a number');
     }
   }
-  function clearInputVal(){
+  function clearInputVal(){//清空输入框
     var input = document.getElementById('input');
     input.value = '';
+    input.focus();//重新获取焦点
   }
-  function addLi(direction){
+  function addLi(direction){//添加元素
     var val = getInputVal();
     if (!val) {
       return false;
     }
+    var queueLen = queue.getElementsByClassName('item').length;
+    if (queueLen >= 60) {
+      alert('no more than 60 items');
+      return false;
+    }
     var li = document.createElement('li');
     li.innerText = val;
+    li.style.height = 2*val +'px';
     li.setAttribute('class','item');
     if (direction == 'left') {
       queue.insertBefore(li,queue.firstChild);
@@ -73,9 +83,8 @@
       queue.appendChild(li);
     }
     clearInputVal();
-    input.focus();
   }
-  function removeLi(direction){
+  function removeLi(direction){//移除元素
     if (!queue.firstElementChild || !queue.lastElementChild) {
       alert('There is no number to remove');
       return false;
@@ -88,11 +97,50 @@
       queue.lastElementChild.remove();
     }
   }
+  function getDataArray(){
+    var listArray = queue.getElementsByClassName('item');//返回的数组没有数组原型链上的方法。
+    // dataArray.filter(function(item){
+    //   console.log(item);
+    // })
+    // dataArray.call(Array.prototype.filter(function(item){
+    //   console.log(this);
+    //   console.log(item);
+    // }),this);
+    /****
+    ****此处不能用filter
+    ****/
+    // var dataArray =  Array.prototype.filter.call(listArray,function(item){
+    //   console.log(item.innerText)
+    //   return Number(item.innerText);
+    // });
+    /****
+    ****此处不能用filter
+    ****/
+    /*用map*/
+    // var dataArray =  Array.prototype.map.call(listArray,function(item){
+    //   console.log(item.innerText)
+    //   return Number(item.innerText);
+    // });
+    /*排序*/
+    console.log(listArray);
+    var dataArray =  Array.prototype.sort.call(listArray,function(a,b){
+      var numA = Number(a.innerText);
+      var numB = Number(b.innerText);
+      console.log(numA);
+      console.log(numB);
+      return numA - numB;
+    });
+    console.log(dataArray);
+
+    // console.log(dataArray);
+    return dataArray;
+  }
   var queue = document.getElementById('queue');
   var addLeft = document.getElementById('addLeft');
   var addRight = document.getElementById('addRight');
   var removeLeft = document.getElementById('removeLeft');
   var removeRight = document.getElementById('removeRight');
+  var sort = document.getElementById('sort');
   EventUtil.addHandler(addLeft,'click',function(){
     addLi('left');
   });
@@ -109,6 +157,10 @@
     if (e.target.className == 'item') {
       e.target.remove();
     }
+  });
+  EventUtil.addHandler(sort,'click',function(){
+    var data = getDataArray();
+    // console.log(data)
   });
 
 </script>
