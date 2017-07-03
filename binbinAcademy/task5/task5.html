@@ -98,7 +98,9 @@
     }
   }
   function getDataArray(){
-    var listArray = queue.getElementsByClassName('item');//返回的数组没有数组原型链上的方法。
+    // var HTMLCollection = queue.getElementsByClassName('item');//返回的数组没有数组原型链上的方法,并且是动态的。
+    var HTMLCollectionNotLive = queue.querySelectorAll('.item');
+    console.log(HTMLCollectionNotLive)
     // dataArray.filter(function(item){
     //   console.log(item);
     // })
@@ -109,7 +111,7 @@
     /****
     ****此处不能用filter
     ****/
-    // var dataArray =  Array.prototype.filter.call(listArray,function(item){
+    // var dataArray =  Array.prototype.filter.call(HTMLCollection,function(item){
     //   console.log(item.innerText)
     //   return Number(item.innerText);
     // });
@@ -117,23 +119,37 @@
     ****此处不能用filter
     ****/
     /*用map*/
-    // var dataArray =  Array.prototype.map.call(listArray,function(item){
+    // var dataArray =  Array.prototype.map.call(HTMLCollection,function(item){
     //   console.log(item.innerText)
     //   return Number(item.innerText);
     // });
-    /*排序*/
-    console.log(listArray);
-    var dataArray =  Array.prototype.sort.call(listArray,function(a,b){
+    /****
+    **** [HTMLCollection]和[NodeList]只能读，
+    **** 不能改写,故不能直接对HTMLCollection调用sort
+    ****/
+    var listArray = [].slice.call(HTMLCollectionNotLive,0);
+    console.log(listArray)
+    var dataArray =  listArray.sort(function(a,b){
       var numA = Number(a.innerText);
       var numB = Number(b.innerText);
-      console.log(numA);
-      console.log(numB);
       return numA - numB;
     });
-    console.log(dataArray);
-
     // console.log(dataArray);
+
     return dataArray;
+  }
+  function sortData(data){
+    var HTMLCollection = queue.getElementsByClassName('item');
+    // console.log(data);
+    var value = data.map(function(item){
+      return item.innerText;
+    });
+    [].forEach.call(HTMLCollection,function(item,index){
+      console.log(data[index].innerText);
+      // item.innerText = data[index].innerText;
+      item.innerText = value[index];
+      item.style.height = 2*value[index] +'px';
+    });
   }
   var queue = document.getElementById('queue');
   var addLeft = document.getElementById('addLeft');
@@ -160,6 +176,7 @@
   });
   EventUtil.addHandler(sort,'click',function(){
     var data = getDataArray();
+    sortData(data);
     // console.log(data)
   });
 

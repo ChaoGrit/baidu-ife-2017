@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>HTMLCollection</title>
+</head>
+<body>
+<!-- 这个文档 -->
+<ul id="list">
+	<li class="item" id="item1">2</li>
+	<li class="item">1</li>
+</ul>
+</body>
+<script type="text/javascript">
+	var list = document.getElementById('list');
+	var HTMLCollectionLive = list.getElementsByClassName('item');
+	var NodeListNonLive = list.querySelectorAll('.item');
+	var listArr = [].slice.call(NodeListNonLive,0);
+	listArr = listArr.sort(function(a,b){
+		return Number(a.innerText) - Number(b.innerText);
+	});
+	console.log(HTMLCollectionLive);
+	console.log(NodeListNonLive);
+	// console.log(listArr);
+	[].forEach.call(HTMLCollectionLive,function(item,index){
+		//虽然是两个数组，但是，dom结构是一样的，只是顺序不变
+		item.innerText = listArr[index].innerText;
+		
+		// console.log(listArr);
+	});
+</script>
+</html>
