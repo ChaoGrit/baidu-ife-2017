@@ -1,0 +1,152 @@
+<!DOCTYPE>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>IFE JavaScript Task 01</title>
+    <style type="text/css">
+      .item{
+        display: inline-block;
+        margin: 0 10px;
+        padding: 10px 20px;
+        background-color: #f3f6f7;
+        color: #cd4a48;
+        cursor: pointer;
+      }
+      .item.active{
+        background-color: #cd4a48;
+        color: #f3f6f7;
+      }
+      .content-text{
+        width: 260px;
+        height: 60px;
+      }
+      .search-wrap{
+        margin-top: 30px;
+      }
+    </style>
+  </head>
+<body>
+
+  <div>
+    <textarea class="content-text" id="textarea" placeholder="请输入内容" autofocus="true"></textarea>
+    <button id="addLeft">左侧入</button>
+    <button id="addRight">右侧入</button>
+    <button id="removeLeft">左侧出</button>
+    <button id="removeRight">右侧出</button>
+  </div>
+  <div class="search-wrap">
+    <input id="input" placeholder="请输入搜索内容" />
+    <button id="search">搜索</button>
+  </div>
+  
+
+  <ul id="queue">
+    
+  </ul>
+
+<script type="text/javascript">
+  var EventUtil = {//封装绑定和解绑函数
+    addHandler: function(element,type,handler){
+      if (element.addEventListener) {
+        element.addEventListener(type,handler,false);
+      }else if(element.attachEvent) {
+        element.attachEvent("on" + type,handler)
+      }else{
+        element["on" + type] = handler;
+      }
+    },
+    removeHandler: function(element,type,handler){
+      if (element.removeEventListener) {
+        element.removeEventListener(type,handler,false);
+      }else if(element.detachEvent) {
+        element.detachEvent("on" + type,handler)
+      }else{
+        element["on" + type] = null;
+      }
+    }
+  }
+  function getTextVal(){
+    var textVal = document.getElementById('textarea').value.trim();
+    if (textVal) {
+      return textVal;
+    }else{
+      console.error('please enter something');
+    }
+  }
+  function clearTextVal(){
+    var textarea = document.getElementById('textarea');
+    textarea.value = '';
+  }
+  function addLi(direction){
+    var val = getTextVal();
+    if (!val) {
+      return false;
+    }
+    var li = document.createElement('li');
+    li.innerText = val;
+    li.setAttribute('class','item');
+    if (direction == 'left') {
+      queue.insertBefore(li,queue.firstChild);
+    }else{
+      queue.appendChild(li);
+    }
+    clearTextVal();
+    textarea.focus();//方便操作
+  }
+  function removeLi(direction){
+    if (!queue.firstElementChild || !queue.lastElementChild) {
+      alert('There is no number to remove');
+      return false;
+    }
+    if (direction == 'left') {
+      alert(queue.firstElementChild.innerText);
+      var left = queue.firstElementChild.remove();
+    }else if (direction == 'right') {
+      alert(queue.lastElementChild.innerText);
+      queue.lastElementChild.remove();//获取最后一个element
+    }
+  }
+  function matchItem(){
+    var input = document.getElementById('input');
+    var key = input.value.trim();
+    var HTMLCollection = queue.getElementsByTagName('li');
+    var list = [].slice.call(HTMLCollection,0);
+    list.map(function(item){
+      if (item.innerText.indexOf(key) > -1) {
+        item.className += ' active';//一定要有空格，一定要+=
+      }else{
+        item.className = 'item';
+      }
+    });
+  }
+  var queue = document.getElementById('queue');
+  var addLeft = document.getElementById('addLeft');
+  var addRight = document.getElementById('addRight');
+  var removeLeft = document.getElementById('removeLeft');
+  var removeRight = document.getElementById('removeRight');
+  EventUtil.addHandler(addLeft,'click',function(){
+    addLi('left');
+  });
+  EventUtil.addHandler(addRight,'click',function(){
+    addLi('right');
+  });
+  EventUtil.addHandler(removeLeft,'click',function(){
+    removeLi('left');
+  });
+  EventUtil.addHandler(removeRight,'click',function(){
+    removeLi('right');
+  });
+  EventUtil.addHandler(queue,'click',function(e){//事件冒泡的方式绑定，如果放在li上市绑定不到的。
+    // console.log(this == e.currentTarget);//true
+    // console.log(this == e.target);//false
+    if (e.target.className == 'item') {//不作判断的话会把queue Remove掉
+      e.target.remove();
+    }
+  });
+  EventUtil.addHandler(search,'click',function(){
+    matchItem();
+  });
+
+</script>
+</body>
+</html>

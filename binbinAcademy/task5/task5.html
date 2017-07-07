@@ -100,7 +100,7 @@
   function getDataArray(){
     // var HTMLCollection = queue.getElementsByClassName('item');//返回的数组没有数组原型链上的方法,并且是动态的。
     var HTMLCollectionNotLive = queue.querySelectorAll('.item');
-    console.log(HTMLCollectionNotLive)
+    // console.log(HTMLCollectionNotLive);
     // dataArray.filter(function(item){
     //   console.log(item);
     // })
@@ -128,7 +128,7 @@
     **** 不能改写,故不能直接对HTMLCollection调用sort
     ****/
     var listArray = [].slice.call(HTMLCollectionNotLive,0);
-    console.log(listArray)
+    // console.log(listArray);
     var dataArray =  listArray.sort(function(a,b){
       var numA = Number(a.innerText);
       var numB = Number(b.innerText);
