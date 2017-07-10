@@ -1,0 +1,36 @@
+div{
+	border: 2px solid #03a9f4;
+	margin: 10px;
+	padding: 10px;
+}
+.root{
+	display: -webkit-flex;
+	display: flex;
+	flex-flow: row wrap;
+	justify-content: center;
+	align-items: center;
+	width: 800px;
+	height: 300px;
+	background-color: white;
+}
+.first{
+	display: flex;
+	flex-grow: 1;
+	flex-flow: row wrap;
+	background-color: white;
+}
+.second{
+	flex-grow: 0.5;
+	box-sizing: border-box;
+	display: flex;
+	flex-flow: row nowrap;
+	background-color: white;
+}
+.third{
+	flex-grow: 0.5;
+	box-sizing: border-box;
+	background-color: white;
+}
+/*.active{
+	background-color: #03a9f4;
+}*/
