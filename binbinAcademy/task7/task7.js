@@ -10,15 +10,31 @@ window.tree = {}; //先创造个命名空间
 		}
 	}
 
-	function preTravel(node) { //traversal
-		var domArr = getChildren(node);
-		for (var i = 0; i < domArr.length; i++) {
-			colorDom(domArr[i]);
-			children = getChildren(domArr[i]);
-			if (children.length > 0) {
-				preTravel(children[1]);
-			}
+	function preOrder(node) { //traversal
+		if (!node) {
+			return;
 		}
+		preOrderArr.push(node);
+		preOrder(node.firstElementChild);
+		preOrder(node.lastElementChild);
+	}
+
+	function inOrder(node) {
+		if (!node) {
+			return;
+		}
+		inOrder(node.firstElementChild);
+		inOrderArr.push(node);
+		inOrder(node.lastElementChild);
+	}
+
+	function postOrder(node) {
+		if (!node) {
+			return;
+		}
+		postOrder(node.firstElementChild);
+		postOrder(node.lastElementChild);
+		postOrderArr.push(node);
 	}
 
 	function getChildren(node) {
@@ -31,17 +47,72 @@ window.tree = {}; //先创造个命名空间
 		return children;
 	}
 
-	function colorDom(dom) {
-		dom.setAttribute('background-color', '#03a9f4');
-		setTimeout(function() {
-			dom.setAttribute('background-color', 'white');
+	function colorDom(count, arr) {
+		if (count >= arr.length) {
+			isProcss = false;
+			return;
+		}
+		arr[count].setAttribute('style', 'background-color:#03a9f4');
+		this.timer = setTimeout(function() {
+			arr[count].setAttribute('style', 'background-color:white');
+			count++;
+			colorDom(count, arr);
 		}, 500);
 	}
-	var tree = document.getElementById('root');
+
+	function reset(orderArr) {
+		for (var i = 0; i < orderArr.length; i++) {
+			orderArr[i].removeAttribute('style');
+		}
+	}
+	function start(order){
+		var arr = [];
+		clearTimeout(window.timer);
+		reset(arr);
+		
+	}
+	var father = document.getElementById('root');
 	var preorder = document.getElementById('preorder');
 	var inorder = document.getElementById('inorder');
 	var postorder = document.getElementById('postorder');
+	isProcss = false;
+	addHandler(preorder, 'click', function() {
+		if (isProcss) {
+			return;
+		} else {
+			isProcss = true;
+		}
+		preOrderArr = [];
+		clearTimeout(window.timer);
+		reset(preOrderArr);
+		preOrder(father);
+		colorDom(0, preOrderArr);
+	});
 
-	preTravel(tree);
+	addHandler(inorder, 'click', function() {
+		if (isProcss) {
+			return;
+		} else {
+			isProcss = true;
+		}
+		inOrderArr = [];
+		clearTimeout(window.timer);
+		reset(inOrderArr);
+		inOrder(father);
+		colorDom(0, inOrderArr);
+	});
+
+	addHandler(postorder, 'click', function() {
+		if (isProcss) {
+			return;
+		} else {
+			isProcss = true;
+		}
+		postOrderArr = [];
+		clearTimeout(window.timer);
+		reset(postOrderArr);
+		postOrder(father);
+		colorDom(0, postOrderArr);
+	});
 
 })(tree)

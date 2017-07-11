@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>ife js task07</title>
+		<style type="text/css">
+			body{
+				width: 600px;
+				margin: 0 auto;
+			}
+			.level1,
+			.level2,
+			.level3,
+			.level4 {
+				display: flex;
+				justify-content: space-around;
+				align-items: center;
+				border: 3px solid #ccc;
+				transition: all 1s;
+			}
+			
+			.level1 {
+				width: 400px;
+				height: 300px;
+			}
+			
+			.level2 {
+				width: 180px;
+				height: 180px;
+			}
+			
+			.level3 {
+				width: 80px;
+				height: 80px;
+			}
+			
+			.level4 {
+				width: 25px;
+				height: 25px;
+			}
+			
+			button {
+				width: 100px;
+				height: 40px;
+				text-align: center;
+				background: transparent;
+				border: 1px solid #eee;
+				border-radius: 5px;
+				margin: 10px;
+				transition: all 1s;
+				font-family: "微软雅黑";
+			}
+			
+			button:hover {
+				background: #FF7F7F;
+				color: #fff;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="level1" id="root">
+			<div class="level2">
+				<div class="level3">
+					<div class="level4"></div>
+					<div class="level4"></div>
+				</div>
+				<div class="level3">
+					<div class="level4"></div>
+					<div class="level4"></div>
+				</div>
+			</div>
+			<div class="level2">
+				<div class="level3">
+					<div class="level4"></div>
+					<div class="level4"></div>
+				</div>
+				<div class="level3">
+					<div class="level4"></div>
+					<div class="level4"></div>
+				</div>
+			</div>
+
+		</div>
+		<span id="button_container"> 
+		<button id="preOrder">前序遍历</button>
+		<button id="inOrder">中序遍历</button>
+		<button id="postOrder">后序遍历</button>
+		</span>
+		<script type="text/javascript">
+			//声明计时器
+			var timer = null;
+
+			//边框变化动画
+			function start() {
+				var i = 0;
+				//第一个元素的边框先设置为红色
+				arr[i].style.borderColor = '#FF7F7F';
+				timer = setInterval(function() {
+					//当i=0时，i++之后为1
+					i++;
+					//后一个边框变色之后，前一个边框重置为初始颜色
+					if (i < arr.length) {
+						arr[i].style.borderColor = '#FF7F7F';
+						arr[i - 1].style.borderColor = '#ccc';
+					} else {
+						//遍历完后，清除定时器，重置最后一个边框颜色
+						clearInterval(timer);
+						arr[arr.length - 1].style.borderColor = '#ccc';
+					}
+				}, 500);
+
+			}
+
+			//重置边框颜色和数组
+			function reset() {
+				arr = [];
+				clearInterval(timer);
+				var divs = document.getElementsByTagName('div');
+				for (var i = 0; i < divs.length; i++) {
+					divs[i].style.borderColor = '#ccc';
+				}
+			}
+
+			//前序遍历
+			function preOrder(node) {
+				if (node !== null) {
+					arr.push(node);
+
+					if (node.firstElementChild !== null) {
+						preOrder(node.firstElementChild);
+					}
+
+					if (node.laststElementChild !== null) {
+						preOrder(node.lastElementChild);
+					}
+
+				}
+			}
+			//中序遍历
+			function inOrder(node) {
+				if (node !== null) {
+					if (node.firstElementChild !== null) {
+						inOrder(node.firstElementChild);
+					}
+
+					arr.push(node);
+
+					if (node.lastElementChild !== null) {
+						inOrder(node.lastElementChild);
+
+					}
+				}
+			}
+			//后序遍历
+			function postOrder(node) {
+				if (node !== null) {
+					if (node.firstElementChild !== null) {
+						postOrder(node.firstElementChild);
+					}
+					if (node.lastElementChild !== null) {
+						postOrder(node.lastElementChild);
+					}
+					arr.push(node);
+				}
+			}
+			//初始化
+			function init() {
+				var root = document.getElementById('root');
+				var arr = [];
+
+				//使用事件委托来提高性能
+				//当按钮按下的时候，重置边框颜色，运行遍历，开始动画，然后break退出switch
+				var button = document.getElementById('button_container');
+				button.addEventListener('click', function(evt) {
+					switch (evt.target.id) {
+						case 'preOrder':
+							{
+								reset();
+								preOrder(root);
+								start();
+								break;
+							}
+						case 'inOrder':
+							{
+								reset();
+								inOrder(root);
+								start();
+								break;
+							}
+						case 'postOrder':
+							{
+								reset();
+								postOrder(root);
+								start();
+								break;
+							}
+					}
+				});
+			}
+			//运行初始化
+			init();
+		</script>
+	</body>
+
+</html>
