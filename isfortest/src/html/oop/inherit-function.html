@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>inherit</title>
+</head>
+<body>
+<script type="text/javascript">
+	var Animal = function (name,color) {
+		this.name = name;
+		this.color = color;
+	};
+	Animal.prototype = {
+		run: function(){
+			console.log('run away');
+		},
+		eat: function(){
+			console.log('eat a lot');
+		}
+	}
+
+	/*
+	** 可以把上述方法封装成一个函数，便于使用
+	** 这等于在子对象上打开一条通道，可以直接调用父对象的方法
+	** uber存着Parent.prototype，
+	** 方便我们调用Parent.prototype里面的方法
+	*/
+
+	
+	function extend1(Child,Parent){
+		var Temp = function(){};
+		Temp.prototype = Parent.prototype;
+		Child.prototype = new Temp();
+		/*以下会把uber挂在Child.prototype.constructor下面
+		**导致实例化的Child是引用不到uber的
+		*/
+		Child.prototype.constructor = Child;
+		Child.uber = Parent.prototype;//monkey1.constructor.uber可取
+	}
+
+	function extend2(Child,Parent){
+		var Temp = function(){};
+		Temp.prototype = Parent.prototype;
+		Child.prototype = new Temp();
+		/*以下会把uber挂在Child.prototype.constructor下面
+		**导致实例化的Child是引用不到uber的
+		*/
+		Child.prototype.constructor = Child;
+		Child.prototype.uber = Parent.prototype;//monkey1.uber可取
+	}
+
+	//在子类.prototype.constructor上挂了两个方法
+	//一个是baseConstructor，方便获取父类，
+	//还有个就是uber，方便获取分类.prototype
+	extend3 = function(subClass, baseClass) {
+    function Temp() { };
+    Temp.prototype = baseClass.prototype;
+    subClass.prototype = new Temp();
+    subClass.prototype.constructor = subClass;
+    subClass.baseConstructor = baseClass;
+
+    subClass.uber = baseClass.prototype;
+	}
+
+	//wsfe里面的继承
+	function inherit(Child,Parent){
+		var Temp = function(){};
+		Temp.prototype = Parent.prototype;
+		var middle = new Temp();//给middle一个内存
+		middle.constructor = Child;
+		middle.uber = Parent.prototype;
+		Child.prototype = middle;
+	}
+
+	var Monkey = function(){
+		// Animal.apply(this,arguments);//没啥作用
+		this.name = 'monkey';
+		this.color = 'brown'
+	};
+
+	/*继承*/
+	inherit(Monkey,Animal);
+
+	// Monkey.prototype.name = 'monkey';
+	// Monkey.prototype.color = 'brown';
+
+	var monkey1 = new Monkey();
+	monkey1.run();
+	console.log(monkey1.uber);
+</script>
+</body>
+</html>

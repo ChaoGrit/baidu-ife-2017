@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>vue demo</title>
+	<link rel="stylesheet" type="text/css" href="../../../styles/common.css" />
+	<style type="text/css">
+	.active{
+		border: 1px solid red;
+	}
+	.text-danger{
+		color: #3380ff;
+	}
+	</style>
+</head>
+<body>
+<div id="example">
+	<p v-bind:class = "{active:isActive,'text-danger': hasError}">
+		{{msg1}}
+	</p>
+	<p v-bind:class = "[isActive ? activeClass : '',errorClass]">
+		{{msg2}}
+	</p>
+	<p v-bind:style = 'styleObj'>
+		{{msg3}}
+	</p>
+</div>
+
+<script type="text/javascript" src="../../../scripts/lib/vue.2.0.js"></script>
+	<script type="text/javascript">
+	var vm = new Vue({
+		el: '#example',
+		data: {
+			isActive: false,
+			hasError: true,
+			activeClass: 'active',
+			errorClass: 'text-danger',
+			styleObj: {
+				color: 'yellow',
+				fontSize: 20
+			},
+			msg1: '布尔值控制class的显隐',
+			msg2: '数组的方式绑定class',
+			msg3: '绑定内联元素'
+		}
+	});
+		
+	</script>
+
+</body>
+</html>

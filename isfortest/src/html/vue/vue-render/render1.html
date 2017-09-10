@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>vue demo</title>
+	<link rel="stylesheet" type="text/css" href="../../../styles/common.css" />
+</head>
+<body>
+	<div id="pa">
+		<p v-bind:title="title" v-if="seen">{{msg}}</p>
+		<input v-model="msg" />
+		<ol>
+			<li v-for="li in list">{{li.item}}</li>
+		</ol>
+		<button v-on:click="removeItem">删除列表</button>
+		<button v-on:click="reverseMsg">翻转</button>
+	</div>
+	<div id="con">
+		<ol>
+			<menu-item v-for="item in conList" v-bind:todo="item"></menu-item>
+		</ol>
+	</div>
+
+<script type="text/javascript" src="../../../scripts/lib/vue.2.0.js"></script>
+	<script type="text/javascript">
+		var app = new Vue({
+			el: '#pa',
+			data: {
+				msg: 'hello world',
+				title: '我是标题',
+				seen: true,
+				list:[{
+					item: 'list1'
+				},{
+					item: 'list2'
+				},{
+					item: 'list3'
+				}]
+			},
+			methods: {
+				removeItem: function(){
+					console.log(this.list.length);
+					this.list = this.list.splice(0,this.list.length-1);
+				},
+				reverseMsg: function(){
+					this.msg = this.msg.split('').reverse().join('');
+					// console.log(this.msg.split(''))
+				}
+			}
+		});
+		app.msg = 'change the world';
+		app.list.push({item: 'list4'});
+		console.log(app);
+		/*******组件的概念*********/
+		Vue.component('menu-item',{
+			props: ['todo'],//自定义属性名称
+			template: '<li>{{todo.text}}</li>'//模板template
+		});
+		var con = new Vue({
+			el: '#con',
+			data:{
+				conList:[
+				{text:'酱油水'},
+				{text:'八合里'},
+				{text:'潮福城'}
+				]
+			}
+		});
+	</script>
+
+</body>
+</html>

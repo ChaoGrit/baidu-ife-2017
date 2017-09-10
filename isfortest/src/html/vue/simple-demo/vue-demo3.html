@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>vue demo</title>
+	<link rel="stylesheet" type="text/css" href="../../styles/common.css" />
+	<style type="text/css">
+	.the-class{
+		color: #f00;
+	}
+	</style>
+</head>
+<body>
+<div id="example">
+	<p v-once>This will never change:{{msg+' world'}}</p>
+	<p v-bind:class="whatClass">This will change:{{msg}}</p>
+	<p>Vue filters:{{ msg | capitalize }}</p>
+</div>
+<div id="rawHtml" v-html="rawHtml">{{msg}}</div>
+<s>666</s>
+
+<script type="text/javascript" src="../../../scripts/lib/vue.2.0.js"></script>
+	<script type="text/javascript">
+
+		var vm = new Vue({
+			el:'#example',
+			data: {
+				msg: 'hello',
+				whatClass: 'the-class'
+			},
+			filters: {
+				capitalize: function(value){//value是|左侧二代msg
+					if (!value) return '';
+					console.log(value);
+					valueStr = value.toString();
+					return valueStr.charAt(0).toUpperCase() + valueStr.slice(1);
+				}
+			}
+		});
+
+	</script>
+
+</body>
+</html>

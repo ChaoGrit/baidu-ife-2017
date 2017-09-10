@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>jquery.deferred</title>
+</head>
+<body>
+
+<script type="text/javascript" src="jquery-1.8.1.min.js"></script>
+
+<script type="text/javascript">
+
+	var dtd = $.Deferred();
+	var wait = function(dtd){
+		var tasks = function(){
+			console.log('tasks函数执行完毕');
+			// console.log(dtd);
+			dtd.resolve();//改变Deferred对象的执行状态
+			// console.log(dtd);
+		};
+		setTimeout(tasks,5000);
+		// return dtd;
+		return dtd.promise();//返回promise对象，不允许改变状态
+	};
+	var d = wait(dtd);//新建一个对象，对这个对象进行操作
+	$.when(d)//$.when()中的参数只能是deferred对象
+	.done(function(){console.log('wait函数执行成功')})//无deferred对象是done会立即执行！
+	.fail(function(){console.log('wait函数执行失败')});
+	// dtd.resolve();//将未完成状态切换为已成功,会直接执行done方法，再执行tasks函数
+	d.resolve();//当有promise时，这句就无效了
+	// dtd.reject();//将未完成状态切换为已失败
+
+/*更好的写法，将dtd对象变成wait()函数的内部对象*/
+var wait = function(){
+	var dtd = $.Deferred();
+	var tasks = function(){
+		console.log('tasks函数执行完毕');
+		dtd.resolve();
+	}
+
+	setTimeout(tasks,5000);
+	return dtd.promise();
+}
+
+$.when(wait())
+.done(function(){console.log('wait函数执行成功')})
+.fail(function(){console.log('wait函数执行失败')});
+
+
+</script>
+
+
+</body>
+</html>

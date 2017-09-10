@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>vue demo</title>
+	<link rel="stylesheet" type="text/css" href="../../../scripts/lib/iview/styles/iview.css" />
+	<link rel="stylesheet" type="text/css" href="../../../styles/common.css" />
+</head>
+<body>
+	<div id="demo">
+		<Tabs value="name1">
+		    <Tab-pane label="one" name="name1">tab1 content</Tab-pane>
+		    <Tab-pane label="two" name="name2">tab2 content</Tab-pane>
+		    <Tab-pane label="three" name="name3">tab3 content</Tab-pane>
+		</Tabs>
+	</div>
+	
+<script type="text/javascript" src="../../../scripts/lib/vue.2.0.js"></script>
+<script type="text/javascript" src="../../../scripts/lib/iview/scripts/iview.min.js"></script>
+	<script type="text/javascript">
+		new Vue({
+			el: '#demo'
+		})
+	</script>
+</body>
+</html>

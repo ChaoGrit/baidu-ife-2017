@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>vue demo</title>
+	<link rel="stylesheet" type="text/css" href="../../../styles/common.css" />
+</head>
+<body>
+	<div id="diy">
+		<input v-focus:argument.modifier1.modifier2="message" value="1">
+	</div>
+
+<script type="text/javascript" src="../../../scripts/lib/vue.2.0.js"></script>
+	<script type="text/javascript">
+	// Vue.directive('focus',{//全局注册
+	// 	inserted: function(el){
+	// 		console.log(el);
+	// 		el.focus();
+	// 	}
+	// });
+	new Vue({//局部注册
+		el: '#diy',
+		data: {
+			message: 'hello directives!'
+		},
+		directives: {//复数形式directives
+			focus: {
+				inserted: function(el,binding,vnode,oldVnode){
+					console.log(el);
+					console.log(binding);
+					el.focus();
+				}
+			}
+		}
+	});
+	</script>
+</body>
+</html>

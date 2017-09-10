@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>call and apply</title>
+</head>
+<body>
+<script type="text/javascript">
+	var Animal = function (name,color) {
+		this.name = name;
+		this.color = color;
+	}
+	// Animal.prototype.run = function(){
+	// 	console.log('run away');
+	// }
+	Animal.prototype = {
+		run: function(){
+			console.log('run away');
+		},
+		eat: function(){
+			console.log('eat a lot');
+		}
+	}
+	var cat = {};
+	// Animal.call(cat,'cat','white');
+	// Animal.apply(cat,['cat','white']);
+
+	var Dog = function(){
+		Animal.apply(this,arguments);
+		this.name = 'Dog';
+		this.color = 'grey';
+	};
+	/***
+	**** 没有这句，单是call或者apply
+	**** 是没办法继承Animal.prototype上的属性的
+	**** 我们不可能一个个添加prototype上的属性
+	****
+	***/
+	Dog.prototype.run = Animal.prototype.run;//如果没有这句，单是call或者apply是没办法继承到prototype上的属性的
+	// var animal1 = new Animal();
+	// animal1.run();//run away
+
+	/***
+	**** 字面量改写的方式会把dog的prototype覆盖掉，
+	**** constructor的指向也会改变
+	**** 任何一个prototype对象都有一个constructor属性
+	***/
+	Dog.prototype = Animal.prototype;//浅拷贝，引用的是同一个地址，一个prototype的改变会引起另一个prototype的改变
+
+	//将原型链上的constructor从新指回Dog
+	Dog.prototype.constructor = Dog;
+	//(这里也会把Animal的prototype改变)
+
+	Dog.prototype.smile = function(){
+		console.log('give you a smile');
+	}
+
+	var dog1 = new Dog();
+	// dog1.run();
+	// dog1.eat();
+	// console.log(dog1.constructor);
+	/*
+	** Dog.prototype的改变会导致Animal.prototype的改变
+	*/
+	var animal2 = new Animal();// animal2.smile();
+	
+	/*
+	** 出于以上原因，要利用一个空对象当媒介，
+	** 参考深拷贝的实践
+	** 
+	*/
+
+	var Fox = function(){
+		Animal.apply(this,arguments);
+		this.name = 'Fox';
+		this.color = 'orange';
+	};
+	var Temp = function(){};
+	Temp.prototype = Animal.prototype;
+	Fox.prototype = new Temp();//不是直接指向Temp的原型，而是new一个
+	Fox.prototype.constructor = Fox;
+	var fox = new Fox();
+	// fox.run();//run away
+	Fox.prototype.jump = function(){
+		console.log('jump over');
+	}
+	var animal3 = new Animal();
+	// animal3.jump();//jump is not a function
+
+	/*
+	** 可以把上述方法封装成一个函数，便于使用
+	** 这等于在子对象上打开一条通道，可以直接调用父对象的方法
+	** uber存着Parent.prototype，
+	** 方便我们调用Parent.prototype里面的方法
+	*/
+
+	function inherit(Child,Parent){
+		var Temp = function(){};
+		Temp.prototype = Parent.prototype;
+		Child.prototype = new Temp();
+		Child.prototype.constructor = Child;
+		Child.uber = Parent.prototype;
+	}
+
+	var Monkey = function(){
+		Animal.apply(this,arguments);
+		this.name = 'monkey';
+		this.color = 'brown';
+	};
+	inherit(Monkey,Animal);
+	var monkey1 = new Monkey();
+	monkey1.run();
+	console.log(monkey1.uber);
+</script>
+</body>
+</html>

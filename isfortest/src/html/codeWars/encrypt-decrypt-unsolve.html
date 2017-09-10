@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>CodeWars</title>
+</head>
+	<p>
+		For building the encrypted string:
+		Take every 2nd char from the string, then the other chars, that are not every 2nd char, and concat them as new String.
+		Do this n times!
+	</p>
+	
+<body>
+
+<script type="text/javascript">
+/*
+***My Solution
+***
+*/
+	function encrypt(text, n) {
+		var str = '';
+		var str1 = '';//用于记录第二个char
+		var str2 = '';//用于记录剩下的char
+		if (n <= 0 || !text) {
+			return text;
+		}
+		for (var i = 0; i < text.length; i++) {
+			if (i%2 !== 0) {
+				str1 += text.slice(i,i + 1);
+			}else{
+				str2 += text.slice(i,i + 1);
+			}
+		}
+		str = str1 + str2;
+		n--;//自减
+		console.log(str);
+		if (n>0) {
+			return encrypt(str,n);//这边一定要return
+		}else{
+			return str;
+		}
+	}
+	//解密，发现四次一个循环
+	function decrypt(encryptedText, n) {
+		if (n <= 0 || !encryptedText) {
+			return encryptedText;
+		}
+		var remain = 4-(n%4);
+		return encrypt(encryptedText,remain);
+	}
+
+	// encrypt("This is a test!",6);
+	// var result = encrypt("hskt svr neetn!Ti aai eyitrsig",1);
+	console.log(decrypt("hskt svr neetn!Ti aai eyitrsig",1));//have bugs
+
+/***
+*** Better Solution
+*** 
+***/
+	
+
+
+/***
+*** Special Solution 
+*** 
+***/
+
+
+</script>
+
+</body>
+</html>

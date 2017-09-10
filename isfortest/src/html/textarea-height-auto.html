@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>autoresizing textarea</title>
+<style type="text/css">
+    textarea {
+        width:360px;
+        border: 0 none white;
+        overflow: hidden;
+        padding: 5px 10px;/*padding必须是0？*/
+        outline: none;
+        /*background-color: #D0D0D0;*/
+        resize: none;
+        margin-top:30px;
+        margin-left:400px;
+        border-radius:2px;
+        border: 1px solid #ccc;
+    }
+    textarea:focus{
+        border-color: #3380ff;
+    }
+</style>
+<script type="text/javascript">
+var observe;
+if (window.attachEvent) {
+    observe = function (element, event, handler) {
+        element.attachEvent('on'+event, handler);
+    };
+}
+else {
+    observe = function (element, event, handler) {
+        element.addEventListener(event, handler, false);
+    };
+}
+function initResize (id) {
+    var text = document.getElementById(id);
+    function resize () {
+        var he = text.style.height;//获取文本框本本身高度
+        var h = he.substring(0,he.indexOf('p'));//取到数字
+
+
+        if(text.scrollHeight > h+10){
+            text.style.height = text.scrollHeight+'px';
+        }else{
+            text.style.height = 'auto';
+            text.style.height = text.scrollHeight+'px';
+        }
+    }
+    /* 0-timeout to get the already changed text */
+    function delayedResize () {
+        window.setTimeout(resize, 0);
+    }
+
+    observe(text, 'change',  resize);
+    observe(text, 'cut',     delayedResize);
+    observe(text, 'paste',   delayedResize);
+    observe(text, 'drop',    delayedResize);
+    observe(text, 'keydown', delayedResize);
+
+
+    text.focus();
+    text.select();
+    resize();
+}
+</script>
+</head>
+<body onload="init('text');">
+<textarea  class="text" id="text" rows="5"></textarea>
+</body>
+</html>

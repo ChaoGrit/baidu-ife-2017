@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>关于flex-grow值分配</title>
+	<style type="text/css">
+		main {
+		  display: flex;
+		  max-width: 900px;
+		  background-color: #ededed;
+		}
+		section,aside{
+			min-height: 40px;
+		}
+		section {
+			background-color: #BE4C39;
+		  flex-grow: 2;
+		}
+		aside {
+			background-color: #2793C7;
+		  flex-grow: 1;
+		}
+	</style>
+</head>
+<body>
+	<main>
+	  <section class="col"></section>
+	  <aside class="col"></aside>
+	</main>
+
+	<ol>
+	  <li>width section: <span></span> </li>
+	  <li>width aside: <span></span></li>
+	</ol>
+	<script type="text/javascript">
+		getsize();
+
+		function getsize() {
+		  var n = 0;
+		  for (var node of document.querySelectorAll('.col')) {
+		    document.querySelectorAll('span')[n].textContent = node.getBoundingClientRect().width+"px";
+		    n++;
+		  }
+		}
+
+		window.onresize = function(event) {
+		  getsize();
+		};
+	</script>
+</body>
+</html>

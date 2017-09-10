@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>CodeWars</title>
+</head>
+	<p>
+		Pete likes to bake some cakes. He has some recipes and ingredients. Unfortunately he is not good in maths. Can you help him to find out, how many cakes he could bake considering his recipes?
+
+		Write a function cakes(), which takes the recipe (object) and the available ingredients (also an object) and returns the maximum number of cakes Pete can bake (integer). For simplicity there are no units for the amounts (e.g. 1 lb of flour or 200 g of sugar are simply 1 or 200). Ingredients that are not present in the objects, can be considered as 0.
+	</p>
+	
+<body>
+
+<script type="text/javascript">
+/*
+***My Solution
+***
+*/
+	var recipes = {
+		flour: 500,
+		sugar: 200,
+		eggs: 1
+	};
+	var ingredients = {
+		flour: 1200,
+		sugar: 1200,
+		eggs: 5,
+		milk: 200
+	};
+	function cakes(recipe, available) {
+		var arr = [];
+		for(var key in recipe){
+			if (available[key]) {
+				arr.push(Math.floor(available[key]/recipe[key]));
+			}else{
+				return 0;
+			}
+		}
+		arr.sort(function(a,b){return a-b;});
+		return arr[0];
+	}
+	console.log(cakes(recipes,ingredients));
+
+/***
+*** Better Solution
+*** 
+***/
+	function cakes(recipe, available) {
+		var arr = [];
+		for(var key in recipe){
+			if (available[key]) {
+				arr.push(Math.floor(available[key]/recipe[key]));
+			}else{
+				return 0;
+			}
+		}
+		/*
+		** es5写法
+		*/
+		// Math.min.call(null,arr);//call不能传数组
+		Math.min.apply(null,arr);//apply传的正是数组，不需要指定this，传个null就可以了,只能选出最大或最小值
+		/*
+		** es6写法
+		** 不需要用到apply，但是加...
+		*/
+		// Math.min(...arr);
+		return arr[0];
+	}
+
+/***
+*** Special Solution 
+*** 
+***/
+
+	// function cakes(recipe, available) {
+	//   return Object.keys(recipe).reduce(function(val, ingredient) {
+	//     return Math.min(Math.floor(available[ingredient] / recipe[ingredient] || 0), val)
+	//   }, Infinity)  
+	// }
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>CodeWars</title>
+</head>
+	<p>
+		The new "Avengers" movie has just been released! There are a lot of people at the cinema box office standing in a huge line. Each of them has a single 100, 50 or 25 dollars bill. A "Avengers" ticket costs 25 dollars.
+
+		Vasya is currently working as a clerk. He wants to sell a ticket to every single person in this line.
+
+		Can Vasya sell a ticket to each person and give the change if he initially has no money and sells the tickets strictly in the order people follow in the line?
+
+		Return YES, if Vasya can sell a ticket to each person and give the change. Otherwise return NO.
+	</p>
+	
+<body>
+
+<script type="text/javascript">
+/*
+***My Solution
+***
+*/
+	
+	function tickets(peopleInLine){
+	  var charge25 = 0;
+	  var charge50 = 0;
+	  var charge100 = 0;
+	  peopleInLine.forEach(function(item){
+	  	switch(item){//如果没有break会顺序执行后面的语句，不会判断case的值
+	  		case 25: charge25 ++
+	  		break;
+	  		case 50: charge50 ++
+	  		break;
+	  		case 100: charge100 ++
+	  		break;
+	  	}
+	  });
+	  return (charge50 +2*charge100 ==charge25)?'YES':'NO';
+	}
+	console.log(tickets([25,50,25,25,100]));
+
+/***
+*** Better Solution
+*** 
+***/
+	
+
+
+/***
+*** Special Solution 
+*** 
+***/
+</script>
+
+</body>
+</html>

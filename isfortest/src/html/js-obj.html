@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>引用类型-对象</title>
+</head>
+<body>
+	
+<script type="text/javascript" src="../../dist/js/jquery-1.8.1.min.js"></script>
+
+<script type="text/javascript">
+/********对象*********/
+// function displayInfo(args) {
+// 	var output = '';
+// 	if (typeof args.name == 'string') {
+// 		output += 'Name: ' + args.name + "\n";
+// 	}
+// 	if (typeof args.age == 'number') {//必须是数字呀
+// 		output += 'Age: ' + args.age + '\n';
+// 	}
+// 	console.log(output);
+// }
+
+// displayInfo({
+// 	name: 'mike',
+// 	age: 25
+// });
+
+// displayInfo({
+// 	name: 'john',
+// 	age: '23'
+// })
+
+/*******数组-排序方法*******/
+function compare(v1,v2){
+	if (v1 < v2) {
+		return -1;
+	}
+	else if (v1 > v2) {
+		return 1;
+	}
+	else{
+		return 0;
+	}
+}
+var value = [0,1,5,10,15];
+value.sort(compare);
+console.log(value);
+</script>
+
+
+
+</body>
+</html>

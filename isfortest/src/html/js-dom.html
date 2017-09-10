@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>DOM</title>
+	<style type="text/css">
+		#text{
+		　　font-size: 20px;
+		　　overflow: hidden;
+				resize: none;
+		}
+	</style>
+</head>
+<textarea class="js-text" id="text" style="font-size: 20px;"></textarea>
+<!-- <div contenteditable="true" style="width: 500px;">sssssssssssss</div> -->
+
+
+
+
+<body>
+	
+<script type="text/javascript" src="../../dist/js/jquery-1.8.1.min.js"></script>
+
+<script type="text/javascript">
+	function squareDigits(num){
+	  //may the code be with you
+	  var numStr = num.toString();
+	  var total = '';
+	  for(i=0;i<numStr.length;i++){
+	    var digitNum = parseInt(numStr.charAt(i));
+	    var square = digitNum*digitNum;
+	    total+=square.toString();
+	  }
+	  return parseInt(total);
+	}
+	function squareDigitsBetter(num){
+		var numArr = ('' + num).split('');
+		numArr = numArr.map(function(item){//要重写下numArr,不然numArr还是原来的数组
+			return parseInt(item)*parseInt(item);
+		});
+		return numArr.join('');
+	}
+	console.log(squareDigitsBetter(9119));
+</script>
+
+
+
+</body>
+</html>

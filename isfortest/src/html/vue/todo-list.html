@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>to do list</title>
+	<link rel="stylesheet" type="text/css" href="../../styles/common.css" />
+	<style type="text/css">
+		.todo-wrap{
+			margin: 30px auto;
+			width: 500px;
+			/*text-align: center;*/
+		}
+		.todo-list{
+			margin-top: 20px;
+		}
+		.todo-list>li{
+			margin-bottom: 10px;
+		}
+		.finished{
+			text-decoration: line-through;
+			color: #333;
+		}
+	</style>
+</head>
+<body>
+	<div id="todoList" class="todo-wrap">
+		<input v-model="todo" @keyup.enter="add()" v-autofocus placeholder="输入待办事项" />
+		<button v-on:click="add">添加</button>
+		<button v-on:click="removeAll">删除全部</button>
+		<button v-on:click="removeSelected">删除选中</button>
+		<button v-on:click="removeSelected">展示未完成</button>
+		<ol class="todo-list">
+			<li v-for="(item,index) in todos">
+				<input type="checkbox" v-model="checkItem[index]" v-bind="{id:item.text,value:item.text}" />
+				<label v-bind:class="{finished: item.hasDone}" v-bind="{for:item.text}">{{item.text}}</label>
+				<button v-on:click="toggleStatus(item)">{{item.status}}</button>
+				<button v-on:click="deleteItem(index)">删除</button>
+			</li>
+		</ol>
+	</div>
+
+<script type="text/javascript" src="../../scripts/lib/vue.2.0.js"></script>
+<script type="text/javascript">
+	
+	var vm = new Vue({
+		el: '#todoList',
+		data: {
+			todos: [ 
+				{
+					text: '健身',
+					status: '解决',
+					hasDone: false
+				},{
+					text: '完成TODOlist',
+					status: '解决',
+					hasDone: false
+				},{
+					text: '看书',
+					status: '解决',
+					hasDone: false
+				}
+			],
+			todo: '',
+			checkItem: []
+		},
+		methods:{
+			add: function(){
+				if (this.todo && this.todo.trim()) {
+					this.todos.push({
+						text: this.todo,
+						status: '解决',
+						hasDone: false
+					});
+					this.todo = '';
+				}
+			},
+			removeAll: function(){
+				this.todos.splice(0,this.todos.length);
+				// this.todos = [];
+			},
+			toggleStatus: function(currentItem){
+				currentItem.hasDone = currentItem.hasDone?false:true;
+				currentItem.status = currentItem.hasDone?'重开':'解决';
+			},
+			deleteItem: function(index){//删除项的同时要把对应勾选状态删除吗？
+				this.todos.splice(index,1);
+				this.checkItem.splice(index,1);
+			},
+			removeSelected: function(){
+				var arrLen = this.todos.length;
+				var selectArr = [];
+				for(var i = 0;i<arrLen;i++){
+					if (this.checkItem[i] == true) {
+						// this.deleteItem(i);
+						selectArr.push(this.checkItem[i]);
+					}else{
+						selectArr.push(false);
+					}
+				}
+				console.log(selectArr);
+			}
+		},
+		directives: {
+			autofocus: {
+				inserted: function(el){
+					el.focus();
+				}
+			}
+		} 
+	})
+</script>
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>第四章</title>
+</head>
+<body>
+	
+<script type="text/javascript" src="../../dist/js/jquery-1.8.1.min.js"></script>
+
+<script type="text/javascript">
+/********变量、作用域和内存问题*********/
+ /*obj1和obj2是相互联系着的，一方改变，另一方也会相应着变化，因为引用的是同一对象*/
+// var obj1 = {
+// 	name: 'mike',
+// 	age: '25'
+// }
+// var obj2 = obj1;
+// obj1.name = 'steve';
+// console.log(obj2)//只改变obj1也会导致obj2的变化
+ /*********函数内部*********/
+ // function setName(obj){
+ // 	obj.name = 'mike';
+ // 	obj = new Object();
+ // 	obj.name = 'steve';
+ // 	console.log(obj.name);//steve
+ // }
+ // var person = new Object();
+ // setName(person);
+ // console.log(person.name);//mike
+
+ /*********作用域*********/
+
+// var color = "blue";
+// function changeColor(){//注意这里不需要传参哦！
+// 	if (color ==="blue") {
+// 		color ="red";
+// 	}
+// 	else{
+// 		color = "blue";
+// 	}
+// }
+// changeColor();
+// console.log('Now color is '+color);
+
+/*$.each的乱入*/
+// $.each("['one']",function(i,n){
+// 	console.log(i+':'+n);
+// })
+// $.each({k1:'v1',k2:'v2',k3:'v3'},function(i,n){
+// 	console.log('key is '+i+',value is '+n);
+// })
+/*$.each的乱入*/
+
+/**/
+function add(a,b){
+	// var sum = Number;
+	sum = a + b;//全局变量
+	return sum;
+}
+// console.log(sum);//undefined
+add(1,2);
+console.log(sum);
+</script>
+
+
+
+
+</body>
+</html>

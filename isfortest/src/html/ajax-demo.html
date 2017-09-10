@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>ajax</title>
+	<link rel="stylesheet" type="text/css" href="../styles/common.css" />
+	<style type="text/css">
+	input{
+		width: 100px;
+	}
+	input[type='text']{
+		width: 500px;
+	}	
+	.input{
+		width: 200px;
+	}
+	#input{
+		width: 1000px;
+	}
+/*结果是优先级id>input[]>class>input*/
+	</style>
+</head>
+<body>
+	<form id="ajax-form" action="form/submit" method="get">
+	<div class="button-wrap"><a class="button js-ajax-btn" href="javascript:;" type="submit">提交</a></div>
+	<div class="button-wrap"><a class="button js-ajax-btn2" href="javascript:;" type="submit">提交2</a></div>
+	</form>
+	<div>
+		<input class="input" id="input" type="text" />
+	</div>
+<script type="text/javascript" src="../../dist/js/jquery-1.8.1.min.js"></script>
+<!-- 模拟数据 -->
+<script type="text/javascript" src="../../dist/js/mock.js"></script>
+<script type="text/javascript" src="../../dist/mock-data/ajaxMock.js"></script>
+
+<script type="text/javascript" src="../scripts/ajaxDemo.js"></script>
+
+
+</body>
+</html>

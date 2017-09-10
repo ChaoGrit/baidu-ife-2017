@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>闭包与循环</title>
+</head>
+<body>
+
+<script type="text/javascript">
+/*核心思想：函数在执行的时候才会去取需要的参数，变量*/
+
+/**
+***example1 来自阮一峰
+**/
+//first
+var name = "The Window";
+var object = {
+　name : "My Object",
+　getNameFunc : function(){
+　　return function(){
+　　	return this.name;
+		};
+	}
+};
+console.log(object.getNameFunc()());//->The Window
+//second
+var name = "The Window";
+var object = {
+　name : "My Object",
+　getNameFunc : function(){
+		var that = this; 
+　　return function(){
+　　	return that.name;
+		};
+	}
+};
+console.log(object.getNameFunc()());//->My Object
+/**
+***example2
+**/
+for(var i=0,arr=[];i<=3;i++) {
+	arr.push(function(){console.log(i)});
+}
+
+/*因为不是立即执行的，而是后面才执行的，函数中i是取最终的的i*/
+/*没执行的时候i不会传过去，执行的时候i才会被传过去*/
+
+arr[0]();  // ?? 结果不是0
+arr[1]();  // ?? 全是4
+arr[2]();  // ?? 全是4
+arr[3]();  // ?? 全是4
+
+/**
+***example3 example2的进阶
+**/
+// function buildList(list){
+// 	var result = [];
+// 	for (var i = 0; i < list.length; i++) {
+// 		var item = 'item' + i;
+// 		result.push(function(){
+// 			console.log(item + ' ' + list[i]);
+// 		});
+// 	}
+// 	return result;
+// }
+// function testList(){
+// 	var fnList = buildList([1,2,3]);
+// 	// console.log(fnList)
+// 	for (var j = 0; j < fnList.length; j++) {
+// 		console.log(fnList)
+// 		fnList[j]();
+// 	}
+// }
+// testList();
+
+</script>
+
+</body>
+</html>

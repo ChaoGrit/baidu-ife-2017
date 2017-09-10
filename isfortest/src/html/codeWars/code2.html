@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>CodeWars</title>
+</head>
+	<p>
+		Write a function, persistence, that takes in a positive parameter num and returns its multiplicative persistence, which is the number of times you must multiply the digits in num until you reach a single digit.
+	</p>
+	
+<body>
+
+<script type="text/javascript">
+/*
+***My Solution
+***
+*/
+	var hasdone = true;
+	var counter = 0;
+	function persistence(num) {
+	  //code me
+	  if (hasdone) {
+	  	counter = 0;
+	  	hasdone = false;
+	  }
+	  var numArr = ('' + num).split('');
+	  var result = 1;
+	  if (numArr.length != 1 ) {
+	  	for(i = 0; i < numArr.length; i++){
+		  	result *= parseInt(numArr[i]);
+		  }
+	  	counter += 1;
+	  	return persistence(result);//这里要return，后面才能调用得到
+	  }else{
+	  	hasdone = true;
+	  	return counter;
+	  }
+	}
+
+/***
+*** Better Solution
+***/
+	function persistenceBetter(num){
+		var times = 0;
+		numStr = num.toString();
+		while(numStr.length > 1){
+			times++;
+			numStr = numStr.split('').map(Number).reduce(function(a,b){return a*b;}).toString();
+		}
+		return times;
+	}
+	// var a = [1,2,3,4,5];
+	// a.reduce(function(accumulator,currentValue,currentIndex,array){
+	// 	return accumulator*currentValue;
+	// })
+	// console.log(persistenceBetter(4));
+
+
+/***
+*** Special Solution ,这其实是我原先的思路，
+*** 在字符串长度不唯一的时候不断调用自身函数
+***/
+	const persistence = num => {
+  return `${num}`.length > 1 
+    ? 1 + persistence(`${num}`.split('').reduce((a, b) => a * +b)) 
+    : 0;
+	}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>vue demo</title>
+	<link rel="stylesheet" type="text/css" href="../../../styles/common.css" />
+	<style type="text/css">
+	</style>
+</head>
+<body>
+<div id="example">
+	<p>{{msg}}</p>
+	<p>{{reversemsg}}</p>
+	<p>{{reverseMsg()}}</p>
+	<p>{{fullName}}</p>
+</div>
+
+<script type="text/javascript" src="../../../scripts/lib/vue.2.0.js"></script>
+	<script type="text/javascript">
+
+		var vm = new Vue({
+			el:'#example',
+			data: {
+				msg: 'hello',
+				firstName: 'WenChao',
+				lastName: 'Zhang'
+			},
+			computed: {
+				reversemsg: function(){
+					console.log(this);
+					return this.msg + Date.now();
+				},
+				fullName: {
+					//get方法
+					get: function(){
+						return this.firstName + this.lastName;
+					},
+					//set方法
+					setr: function(newValue){
+						var names = newValue.split(' ');
+						this.firstName = names[0];
+						this.lastName = names[names.length-1]
+					}
+				}
+			},
+			methods: {
+				reverseMsg: function(){
+					return this.msg + Date.now();
+				}
+			}
+		});
+		vm.msg = 'change';//vm的msg修改，则reverseMsg的内容也相应修改
+		vm.fullName = 'John Doe';//未设置setter时，不会
+	</script>
+
+</body>
+</html>

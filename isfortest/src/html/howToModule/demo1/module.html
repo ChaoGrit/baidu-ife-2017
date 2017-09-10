@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>模块化</title>
+</head>
+<body>
+	<script type="text/javascript" src="howToModule.js"></script>
+	<script type="text/javascript" src="../../../scripts/lib/bui/seed-min.js"></script>
+	<script type="text/javascript">
+		var Requiredemo = seajs.use('./requiredemo.js',function(){
+			Output();
+		});
+	</script>
+</body>
+</html>

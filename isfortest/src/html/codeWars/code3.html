@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>CodeWars</title>
+</head>
+	<p>
+		An isogram is a word that has no repeating letters, consecutive or non-consecutive. Implement a function that determines whether a string that contains only letters is an isogram. Assume the empty string is an isogram. Ignore letter case.
+		<!-- 判断无重复字母的单词 -->
+	</p>
+	
+<body>
+
+<script type="text/javascript">
+/*
+***My Solution
+***
+*/
+	
+	function isIsogram(str){
+	  //...
+	  var isogram = true;
+	  if (!str) {
+	  	return isogram;
+	  }
+	  str = str.toLowerCase();
+	  var arr = str.split('');
+	  for (var i = 0; i < arr.length - 1; i++) {
+	  	var formIndex = ( i + 1 );
+	  	if (str.indexOf(arr[i],formIndex) > -1) {
+	  		return false;
+	  	}
+	  }
+	  return isogram;
+	}
+	console.log(isIsogram('moOse'));
+
+/***
+*** Better Solution
+***/
+	
+
+
+/***
+*** Special Solution 
+***/
+	
+</script>
+
+</body>
+</html>

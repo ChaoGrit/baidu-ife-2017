@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>vue demo</title>
+	<link rel="stylesheet" type="text/css" href="../../../styles/common.css" />
+</head>
+<body>
+	<div id="com1">
+		<ol>
+			<menu-item v-for="item in conList" v-bind:todo="item"></menu-item>
+		</ol>
+	</div>
+	<div id="com2">
+		<counter-btn></counter-btn>
+		<counter-btn></counter-btn>
+		<counter-btn></counter-btn>
+	</div>
+	<div id="com3">
+		<p>{{total}}</p>
+		<counter v-on:add="addOne"></counter>
+		<counter v-on:add="addOne"></counter>
+	</div>
+<script type="text/javascript" src="../../../scripts/lib/vue.2.0.js"></script>
+	<script type="text/javascript">
+		/*******组件的概念*********/
+		// Vue.component('menu-item',{//全局注册
+		// 	props: ['todo'],//自定义属性名称,用于数据的传递
+		// 	template: '<li>{{todo.text}}</li>'//模板template
+		// });
+		// var com1 = new Vue({
+		// 	el: '#com1',
+		// 	data:{
+		// 		conList:[
+		// 		{text:'aaaaaaaa'},
+		// 		{text:'bbbbbbbb'},
+		// 		{text:'cccccccc'},
+		// 		{text:'dddddddd'}
+		// 		]
+		// 	},
+		// 	components:{//局部注册
+		// 		'menu-item': {
+		// 			props: ['todo'],//从外部传来数据
+		// 			template: '<li>{{todo.text}}</li>'
+		// 		}
+		// 	}
+		// });
+		/*component2 prop的应用*/
+		// var data = {counter:0};//
+		// Vue.component('counter-btn',{//全局注册
+		// 	template: '<button v-on:click="counter+=1">{{counter}}</button>',
+		// 	data:function(){//data必须返回函数
+		// 		// return data;//这种方法会导致各组件共享同一个data
+		// 		return {counter:0};//每次return都是新的{counter:0}
+		// 	}
+		// });
+		// var com2 = new Vue({
+		// 	el: '#com2'
+		// });
+		/*component3 自定义事件*/
+		Vue.component('counter',{
+			template: '<button v-on:click="add1">{{counter}}</button>',
+			data: function(){
+				return {
+					counter: 0
+				}
+			},
+			methods: {
+				add1: function(){
+					this.counter += 1;
+					this.$emit('add');//add绑定了addOne，类似jquery的trigger事件
+				}
+			}
+		});
+		new Vue({
+			el: '#com3',
+			data:{
+				total: 0
+			},
+			methods: {
+				addOne: function(){
+					this.total += 1;
+				}
+			}
+		});
+	</script>
+</body>
+</html>

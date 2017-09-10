@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>CodeWars</title>
+</head>
+	<p>
+		Write a function that takes an (unsigned) integer as input, and returns the number of bits that are equal to one in the binary representation of that number.
+
+		Example: The binary representation of 1234 is 10011010010, so the function should return 5 in this case
+	</p>
+	
+<body>
+
+<script type="text/javascript">
+/*
+***My Solution
+***
+*/
+	
+	var countBits = function(n) {
+	  // Program Me
+	  var arr = [];
+	  if (n == 0) {
+	  	return 0;
+	  }
+	  while(n !== 1){
+	  	var remainder = n%2;
+	  	arr.unshift(remainder);
+	  	n = (n-remainder)/2;
+	  }
+	  arr.unshift(1);
+	  arr = arr.filter(function(item){
+	  	return item == 1;
+	  });
+	  arr.join('').split('0');
+	  // console.log(arr.join('').split('0').join(''))
+	  return arr.length;
+	};
+	countBits(1234)
+/***
+*** Better Solution
+*** 
+***/
+	//toString(n)可以将某个转化为n进制的数
+	countBits = n => n.toString(2).split('0').join('').length;
+
+/***
+*** Special Solution 
+*** 
+***/
+</script>
+
+</body>
+</html>

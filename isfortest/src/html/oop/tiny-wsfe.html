@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>inherit</title>
+</head>
+<body>
+<script type="text/javascript">
+	var Animal = function (height) {
+		// this.name = name;
+		// this.color = color;
+		this.height = 100;
+	};
+	Animal.prototype = {
+		run: function(){
+			console.log('run away');
+		},
+		eat: function(){
+			console.log('eat a lot');
+		},
+		symbol: function(){
+			console.log(this.name);
+			console.log(this.color);
+		}
+	}
+
+	/*
+	** 可以把上述方法封装成一个函数，便于使用
+	** 这等于在子对象上打开一条通道，可以直接调用父对象的方法
+	** uber存着Parent.prototype，
+	** 方便我们调用Parent.prototype里面的方法
+	*/
+
+	//wsfe里面的继承,只能继承Parent原型链上的方法
+	function inherit(Child,Parent){
+		var Temp = function(){};
+		Temp.prototype = Parent.prototype;
+		var middle = new Temp();//给middle一个内存
+		middle.constructor = Child;
+		middle.uber = Parent.prototype;
+		Child.prototype = middle;
+	}
+
+	var Monkey = function(){
+		Animal.apply(this,[100]);
+		// console.log(this);
+	};
+
+	inherit(Monkey,Animal);
+
+	Monkey.prototype.name = 'monkey';
+	Monkey.prototype.color = 'brown';
+
+	var monkey1 = new Monkey();
+	monkey1.symbol();
+	console.log(monkey1.uber);
+</script>
+</body>
+</html>
