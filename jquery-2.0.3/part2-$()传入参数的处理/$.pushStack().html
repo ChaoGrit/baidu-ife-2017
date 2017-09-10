@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	<div>111</div>
+	<p>222</p>
+	<span>333</span>
+	<ul>
+		<li>li</li>
+		<li>li</li>
+		<li>li</li>
+		<li>li</li>
+	</ul>
+
+<script type="text/javascript" src="../jquery-2.0.3.js"></script>
+<script type="text/javascript">
+	$(function(){
+		$('div').pushStack($('p')).pushStack($('span')).css('background','red');//栈顶是span，只对span进行操作
+
+		$('div').pushStack($('p')).pushStack($('span')).end().css('background','blue');//span上一级是p
+
+		$('li').slice(1,3).css('background','red')//li的2和3背景颜色变红
+	});
+</script>
+</body>
+</html>

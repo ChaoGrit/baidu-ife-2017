@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	<div>
+		<h3>只传一个对象</h3>
+		<p>当只写一个对象自变量的时候，用于JQ中拓展插件</p>
+		<p>$.extend()拓展工具方法</p>
+		<p>$.fn.extend()拓展实例方法</p>
+
+	</div>
+	<div>
+		<h3>传过个对象</h3>
+		<p>默认浅拷贝</p>
+		<p>$.extend(true,a,b,c...)深拷贝</p>
+		<p>$.fn.extend()拓展实例方法</p>
+
+	</div>
+	
+
+<script type="text/javascript" src="../jquery-2.0.3.js"></script>
+<script type="text/javascript">
+/*
+**extend只传一个对象
+**
+**根据不同调用方式this不一样，用同一套代码实现不同的功能
+**$.extend() -> this 是 $ -> this.aaa(jQuery上挂载) ->调用 $.aaa();
+**$.fn.extend() -> this 是 $.fn -> this.aaa(即原型上挂载) ->调用时要先创建对象才能调用得到 $().aaa();
+**
+**
+*/
+// $.extend({//拓展jQ的工具方法->即$.aaa()
+// 	aaa:function(){
+// 		alert(1)
+// 	},
+// 	bbb:function(){
+// 		alert(2)
+// 	},
+// });
+// //调用
+// $.aaa();//1
+// $.bbb();//2
+
+// $.fn.extend({//拓展jQ的实例方法->即$().aaa
+// 	aaa:function(){
+// 		alert(33)
+// 	},
+// 	bbb:function(){
+// 		alert(44)
+// 	},
+// });
+// //调用,两者调用不会有冲突
+// $().aaa();//33
+// $().bbb();//44
+
+
+/**
+**extend传多个对象，后面的对象都拓展到第一个对象上
+**还可以做深浅拷贝
+**/
+
+//浅拷贝
+var a = {};
+var money1 = {rmb:30000,dollors:0};
+$.extend(a,{name:'aaa',money:money1},{age:30});
+
+console.log(a);//会把所有属性复制，只不过对于深层的只会采用地址引用的方式
+a.money.rmb =100000;
+console.log(money1)//改变了
+
+
+//深拷贝
+var b = {};
+var money2 = {rmb:30001,dollors:0};
+$.extend(true,b,{name:'bbb',money:money2},{age:30});
+
+console.log(b);//会把所有属性复制，按值传递
+b.money.rmb =100000;
+console.log(money2)//不会改变
+
+
+</script>
+</body>
+</html>

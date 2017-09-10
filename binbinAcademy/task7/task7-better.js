@@ -1,4 +1,5 @@
-(function() { //模块化,外部无法获取到内部元素，不会污染全局
+
+(function() { //模块化,外部无法获取到内部元素,不会污染全局
 	function addHandler(element, type, handler) {
 		if (element.addEventListener) {
 			element.addEventListener(type, handler, false);
@@ -64,6 +65,17 @@
 			orderArr[i].removeAttribute('style');
 		}
 	}
+	function start(order){
+		if (isProcss) {
+			return;
+		} else {
+			isProcss = true;
+		}
+		var arr = [];
+		clearTimeout(window.timer);
+		reset(arr);
+		
+	}
 	var father = document.getElementById('root');
 	var buttonGroup = document.getElementById('buttonGroup');
 	var preorder = document.getElementById('preorder');
@@ -107,6 +119,15 @@
 		reset(postOrderArr);
 		postOrder(father);
 		colorDom(0, postOrderArr);
+	});
+
+
+	addHandler(buttonGroup,'click',function(e){//事件委托+事件冒泡
+		console.log(e.target);
+		switch(e.target.id){
+			case: 'preorder'
+			
+		}
 	});
 
 })()
