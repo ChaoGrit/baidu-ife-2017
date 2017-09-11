@@ -62,25 +62,40 @@
 **/
 
 //浅拷贝
-var a = {};
-var money1 = {rmb:30000,dollors:0};
-$.extend(a,{name:'aaa',money:money1},{age:30});
+// var a = {};
+// var money1 = {rmb:30000,dollors:0};
+// $.extend(a,{name:'aaa',money:money1},{age:30});
 
-console.log(a);//会把所有属性复制，只不过对于深层的只会采用地址引用的方式
-a.money.rmb =100000;
-console.log(money1)//改变了
-
-
-//深拷贝
-var b = {};
-var money2 = {rmb:30001,dollors:0};
-$.extend(true,b,{name:'bbb',money:money2},{age:30});
-
-console.log(b);//会把所有属性复制，按值传递
-b.money.rmb =100000;
-console.log(money2)//不会改变
+// console.log(a);//会把所有属性复制，只不过对于深层的只会采用地址引用的方式
+// a.money.rmb =100000;
+// console.log(money1)//改变了
 
 
+// //深拷贝
+// var b = {};
+// var money2 = {rmb:30001,dollors:0};
+// $.extend(true,b,{name:'bbb',money:money2},{age:30});
+
+// console.log(b);//会把所有属性复制，按值传递
+// b.money.rmb =100000;
+// console.log(money2)//不会改变
+
+
+/**
+**$.extend()实现
+**
+**/
+
+// var a = {name: 111};
+// var b = {name: 222};
+// $.extend(a,b)
+// console.log(a)//会被覆盖->a={name:222}
+
+
+var a = {person:{job:'it'}};
+var b = {person:{age:'25'}};
+$.extend(true,a,b);//->a={person:{job:'it',age:'25'}}
+console.log(a)
 </script>
 </body>
 </html>
