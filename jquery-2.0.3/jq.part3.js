@@ -34,11 +34,11 @@ jQuery.extend = jQuery.fn.extend = function() {
 
 	for ( ; i < length; i++ ) {
 		// Only deal with non-null/undefined values
-		if ( (options = arguments[ i ]) != null ) {//后面的对象arguments[]i是否是非non情况
+		if ( (options = arguments[ i ]) != null ) {//后面的对象arguments[i]是否是非non情况
 			// Extend the base object
 			for ( name in options ) {//option是后续对象，name是对象的属性名
-				src = target[ name ];//
-				copy = options[ name ];
+				src = target[ name ];//target中的对象
+				copy = options[ name ];//options中的对象
 
 				// Prevent never-ending loop
 				if ( target === copy ) {// a={}; $.extend(a,{name:a})这种情况
