@@ -12,6 +12,8 @@
 
 <script type="text/javascript" src="../../../scripts/lib/vue.2.0.js"></script>
 	<script type="text/javascript">
+	//https://cn.vuejs.org/v2/guide/custom-directive.html
+
 	// Vue.directive('focus',{//全局注册
 	// 	inserted: function(el){
 	// 		console.log(el);
@@ -25,7 +27,22 @@
 		},
 		directives: {//复数形式directives
 			focus: {
+				/**
+				*** @@ 提供了五个钩子函数
+				*** @@ bind: 调用一次，指令与元素绑定时执行
+				*** @@ inserted: 被绑定元素插入父节点时调用
+				*** @@ update: 组件VNode更新时调用
+				*** @@ componentUpdated: 所在组件的 VNode 及其孩子的 VNode 全部更新时调用
+				*** @@ unbind: 只调用一次，指令与元素解除绑定时执行
+				**/
 				inserted: function(el,binding,vnode,oldVnode){
+					/**
+					*** @@ 钩子函数可以传入四个参数
+					*** @@ el: 指令所绑定的元素
+					*** @@ binding: 一个对象，包含以下属性 name,value,oldValue,expression,arg,modifiers
+					*** @@ vnode: vue编译生成的虚拟节点
+					*** @@ oldVnode: 上一个虚拟节点（仅在update和componentUpdate钩子可用）
+					**/
 					console.log(el);
 					console.log(binding);
 					el.focus();
