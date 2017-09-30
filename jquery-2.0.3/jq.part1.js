@@ -38,7 +38,7 @@ var
 	document = window.document,
 	docElem = document.documentElement,//docElem 为html标签
 
-	/*chao: 两句防冲突  先把window下原有的$寄存为_$或者_jQuery*/
+	/*chao: 两句防冲突  先把window下原有的$寄存为_$或者_jQuery,使用$.noConfilct()的时候会返还，否则就把原来的覆盖了*/
 	// Map over jQuery in case of overwrite
 	_jQuery = window.jQuery,
 

@@ -34,9 +34,11 @@ var
 	document = window.document,
 	docElem = document.documentElement,
 
+	/*chao: 两句防冲突  先把window下原有的jQuery寄存为_jQuery,使用$.noConfilct(true)的时候会返还，否则就把原来的覆盖了*/
 	// Map over jQuery in case of overwrite
 	_jQuery = window.jQuery,
 
+	/*chao: 两句防冲突  先把window下原有的$寄存为_$,使用$.noConfilct()的时候会返还，否则就把原来的覆盖了*/
 	// Map over the $ in case of overwrite
 	_$ = window.$,
 
@@ -97,7 +99,7 @@ var
 
 /*chao:jQuery.fn就是jQuery.prototype*/
 
-jQuery.fn = jQuery.prototype = {
+jQuery.fn = jQuery.prototype = {//定义了一些jQuery的实例方法，放在prototype上
 	// The current version of jQuery being used
 	jquery: core_version,
 
@@ -288,7 +290,7 @@ jQuery.fn = jQuery.prototype = {
 // Give the init function the jQuery prototype for later instantiation
 jQuery.fn.init.prototype = jQuery.fn;//init中可以调用jQuery.prototype中的方法
 
-jQuery.extend = jQuery.fn.extend = function() {
+jQuery.extend = jQuery.fn.extend = function() {//extend方法
 	var options, name, src, copy, copyIsArray, clone,
 		target = arguments[0] || {},
 		i = 1,

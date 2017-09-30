@@ -1,17 +1,19 @@
 jQuery.extend({
 	// Unique for each copy of jQuery on the page
-	expando: "jQuery" + ( core_version + Math.random() ).replace( /\D/g, "" ),
+	//jQuery+版本号+随机数(replace将非数字的替换为空，比如说小数点)，确保唯一性，后面的数据缓存，ajax都有用到
+	expando: "jQuery" + ( core_version + Math.random() ).replace( /\D/g, "" ),//jQuery+版本号+随机数(replace将非数字的替换为空，比如说小数点)
 
-	noConflict: function( deep ) {
-		if ( window.$ === jQuery ) {
+	noConflict: function( deep ) {//防止$和jQuery的冲突
+		// 当引入jQ之前$和jQuery已经被赋值了才会生效
+		if ( window.$ === jQuery ) {//把_$还给$
 			window.$ = _$;
 		}
-
-		if ( deep && window.jQuery === jQuery ) {
+		//把_jQuery还给jQuery，注意代码一开始对已有的jQuery
+		if ( deep && window.jQuery === jQuery ) {//把_jQuery还给jQuery
 			window.jQuery = _jQuery;
 		}
 
-		return jQuery;
+		return jQuery;//返还jQuery对象给新的名词
 	},
 
 	// Is the DOM ready to be used? Set to true once it occurs.

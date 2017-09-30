@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	<p>1111111111111111111111</p>
+	
+<script type="text/javascript">
+	var $ = 123;
+	var jQuery = 456;
+</script>
+<script type="text/javascript" src="../jquery-2.0.3.js"></script>
+<script type="text/javascript">
+/*
+**分两种情况，一种是已存在$和jQuery的情况，一种是后面才出现$和jQuery的情况，$.noConflict()返回jQuery给新名字
+**一种是已存在$和jQuery的情况->先把原来的存起来，当用$.noConflict()再赋值回去
+**一种是后面才出现$和jQuery的情况->直接返回jQuery
+**newName = $.noConflict();
+**
+**
+**
+*/
+var chao = $.noConflict(true);//加参数jQuery才会被覆盖
+var $ = 123;
+chao(function(){
+	alert($)//123
+	// console.log($('p'))//报错
+	console.log(chao('p'))//正常，chao就代替了$或jQuery
+	console.log(jQuery)//正常，chao就代替了$或jQuery
+})
+</script>
+</body>
+</html>

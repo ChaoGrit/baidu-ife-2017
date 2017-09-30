@@ -1,5 +1,5 @@
 
-
+(349,863)
 /*
 **通过part3提到的$.extend({})拓展工具方法
 **工具方法是最底层的东西
@@ -56,6 +56,31 @@ jQuery.extend({
 
 	each(): 遍历集合
 
+	trim(): 去前后空格
+
+	makeArray(): 类数组转化为真数组
+
+	inArray(): 数组版indexOf()
+
+	merge():  合并数组
+
+	grep(): 过滤新数组
+
+	map(): 映射新数组
+
+	guid: 唯一标识符（内部）
+
+	proxy(): 改变this指向
+
+	access():多功能值操作（内部）
+
+	now: Date.now() 当前时间
+
+	swap(): css交换（内部）
 
 
-})
+});
+
+jQuery.ready.promise = function(){} 检测DOM的异步操作（内部）
+
+function isArraylike(){}类似数组的判断 （内部）
