@@ -48,13 +48,13 @@
 //     }
 // }
 
-// @@有处理函数的，根据路径调用不同处理函数，得到由处理函数返回页面的内容，再传给server
+// @@接收传过来的request
 // @@传response & postData 给requestHandler模块
 
-function route(handle, pathname, response, postData) {//用于处理url路径，多传一个response
+function route(handle, pathname, response, request) {//用于处理url路径，多传一个response
     console.log("About to route a request for " + pathname);
     if (typeof handle[pathname] === 'function') {
-        return handle[pathname](response,postData);
+        return handle[pathname](response,request);
     } else {//无处理时返回
         console.log("No request handler found for " + pathname);
         response.writeHead(404, { "Content-Type": "text/plain" });

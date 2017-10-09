@@ -113,7 +113,48 @@
 // @@用node.js写页面的方法
 // @@引入querystring模块，只传text字段
 
+// const querystring = require("querystring");
+
+// function start(response) {
+//     console.log("Request handler 'start' was called.");
+//     let body = '<html>' +
+//         '<head>' +
+//         '<meta http-equiv="Content-Type" content="text/html ' +
+//         'charset=UTF-8" />' +
+//         '</head>' +
+//         '<body>' +
+//         '<form action="/upload" method="post">' +
+//         '<textarea name="text" rows="20" cols="60"></textarea>' +
+//         '<input type="submit" value="Submit text" />' +
+//         '</form>' +
+//         '</body>' +
+//         '</html>';
+//     response.writeHead(200, { "Content-Type": "text/html" });//这边要指定Content-Type
+//     response.write(body);
+//     response.end();
+// }
+
+// function upload(response, postData) {
+//     console.log("Request handler 'upload' was called.");
+//     response.writeHead(200, { "Content-Type": "text/plain" });
+//     // response.write("Hello upload");
+//     // response.write("You've sent: " + postData);//对postData进行处理,传的格式为 "text=xxxxx"
+//     response.write("You've sent the text: " + querystring.parse(postData).text);//对postData进行处理,传的格式为 "xxxxx"
+//     response.end();
+// }
+
+// exports.start = start;
+// exports.upload = upload;
+
+
+// @@
+// @@在/start表单中添加一个文件上传元素
+// @@将node-formidable整合到我们的upload请求处理程序中，用于将上传的图片保存到/tmp/test.png
+// @@引进fs模块将保存在本地的文件在浏览器中显示,将上传的图片内嵌到/uploadURL输出的HTML中
+
 const querystring = require("querystring");
+const fs = require("fs");
+const formidable = require("formidable");
 
 function start(response) {
     console.log("Request handler 'start' was called.");
@@ -123,9 +164,9 @@ function start(response) {
         'charset=UTF-8" />' +
         '</head>' +
         '<body>' +
-        '<form action="/upload" method="post">' +
-        '<textarea name="text" rows="20" cols="60"></textarea>' +
-        '<input type="submit" value="Submit text" />' +
+        '<form action="/upload" enctype="multipart/form-data" method="post">' +//添加一个multipart/form-data的编码类型
+        '<input type="file" name="upload" multiple="multiple">'+
+        '<input type="submit" value="Upload file" />' +
         '</form>' +
         '</body>' +
         '</html>';
@@ -134,14 +175,37 @@ function start(response) {
     response.end();
 }
 
-function upload(response, postData) {
+function upload(response, request) {
     console.log("Request handler 'upload' was called.");
-    response.writeHead(200, { "Content-Type": "text/plain" });
-    // response.write("Hello upload");
-    // response.write("You've sent: " + postData);//对postData进行处理,传的格式为 "text=xxxxx"
-    response.write("You've sent the text: " + querystring.parse(postData).text);//对postData进行处理,传的格式为 "xxxxx"
-    response.end();
+
+    let form = new formidable.IncomingForm();
+    form.uploadDir='./tmp';// 写一个临时路径,不写会报错
+    console.log("about to parse");
+    form.parse(request, function (error, fields, files) {
+        console.log("parsing done");
+        fs.renameSync(files.upload.path, "./tmp/test.png");//该方法是同步执行的,确保该文件保存成/tmp/test.png
+        response.writeHead(200, { "Content-Type": "text/html" });
+        response.write("received image:<br/>");
+        response.write("<img style='width: 200px;height:200px;' src='/show' />");
+        response.end();
+    });
+}
+
+function show(response, postData) {
+    console.log("Request handler 'show' was called.");
+    fs.readFile("/tmp/test.png", "binary", function (error, file) {
+        if (error) {
+            response.writeHead(500, { "Content-Type": "text/plain" });
+            response.write(error + "\n");
+            response.end();
+        } else {
+            response.writeHead(200, { "Content-Type": "text/plain" });
+            response.write(file, "binary");
+            response.end();
+        }
+    });
 }
 
 exports.start = start;
 exports.upload = upload;
+exports.show = show;
