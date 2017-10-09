@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>vue demo</title>
+	<link rel="stylesheet" type="text/css" href="../../../styles/common.css" />
+</head>
+<body>
+	<div id="app"></div>
+
+<script type="text/javascript" src="../../../scripts/lib/vue.2.0.js"></script>
+    <script type="text/javascript">
+
+        let mixins = {
+            created(){
+                console.log('mixins的钩子函数触发')
+            },
+            methods: {
+                foo(){
+                    console.log('mixins-foo');
+                },
+                conflicting(){
+                    console.log('from mixin');
+                }
+            }
+        }
+		
+		let vm = new Vue({
+            el: '#app',
+            mixins: [mixins],
+            created:()=>{//钩子函数可以用箭头函数，钩子函数都会触发，先触发mixins的
+                console.log('组件自身的钩子函数触发')
+            },
+            methods: {
+                bar(){
+                    console.log('component-bar');
+                },
+                conflicting(){
+                    console.log('from self');
+                }
+            }
+        });
+        vm.foo();
+        vm.bar();
+        vm.conflicting();//来自于自身组件的方法
+	</script>
+
+</body>
+</html>
