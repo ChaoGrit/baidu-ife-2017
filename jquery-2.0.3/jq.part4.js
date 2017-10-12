@@ -71,7 +71,7 @@ jQuery.extend({
 	},
 
 	isNumeric: function( obj ) {
-		return !isNaN( parseFloat(obj) ) && isFinite( obj );
+		return !isNaN( parseFloat(obj) ) && isFinite( obj );//isFinite() 函数用于检查其参数是否是无穷大
 	},
 
 	type: function( obj ) {

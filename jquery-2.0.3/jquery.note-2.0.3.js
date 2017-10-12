@@ -416,24 +416,26 @@ jQuery.extend({
 	// Since version 1.3, DOM methods and functions like alert
 	// aren't supported. They return false on IE (#2968).
 	isFunction: function( obj ) {
-		return jQuery.type(obj) === "function";
+		return jQuery.type(obj) === "function";//jQuery工具方法type
 	},
 
-	isArray: Array.isArray,
+	isArray: Array.isArray,//ES5 js自带原生方法
 
 	isWindow: function( obj ) {
-		return obj != null && obj === obj.window;
+		return obj != null && obj === obj.window;// 不是严格等于null，即除了null和undefined&& window==window.window
 	},
 
-	isNumeric: function( obj ) {
-		return !isNaN( parseFloat(obj) ) && isFinite( obj );
+	isNumeric: function( obj ) {//直接用typeof判断是不是数字不靠谱，因为typeof(NaN)='Number'
+		//	非NaN && 有限数字（超出计算机能力范围 Number.MAX_VALUE可以得出计算机能计算最大数）
+		return !isNaN( parseFloat(obj) ) && isFinite( obj );//isFinite() 函数用于检查其参数是否是无穷大
 	},
 
-	type: function( obj ) {
+	type: function( obj ) {//typeof改良版
 		if ( obj == null ) {
 			return String( obj );
 		}
 		// Support: Safari <= 5.1 (functionish RegExp)
+		//class2type是前面定义的空对象
 		return typeof obj === "object" || typeof obj === "function" ?
 			class2type[ core_toString.call(obj) ] || "object" :
 			typeof obj;
@@ -558,7 +560,7 @@ jQuery.extend({
 
 	// Convert dashed to camelCase; used by the css and data modules
 	// Microsoft forgot to hump their vendor prefix (#9572)
-	camelCase: function( string ) {
+	camelCase: function( string ) {//通过正则来实现
 		return string.replace( rmsPrefix, "ms-" ).replace( rdashAlpha, fcamelCase );
 	},
 
