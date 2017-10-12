@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	<p>1111111111111111111111</p>
+
+<script type="text/javascript" src="../jquery-2.0.3.js"></script>
+<script type="text/javascript">
+/*
+**readyList.resolveWith( document, [ jQuery ] );
+**resolveWith进行传参
+**dom触发有三种写法
+*/
+//写法一
+$(function(arg){
+    console.log(this)//documents
+    console.log(arg)//jQuery源码
+});
+//写法二
+// $(document).on('ready',function(){
+    
+// })
+//写法三
+//当作事件来写，通过trigger触发
+// $(document).on('ready',function(){
+    // console.log(123);
+// })
+
+/*
+** $.holdReady(true);
+** $.holdReady(false);
+** 为了让前面的加载完后再加载后面的
+** 确保先输出1，再输出2，再3
+** hold几次，就要释放几次，有readyWait计数
+*/
+$.holdReady(true);//hold住
+
+$.getScript('a.js',function(){//异步的
+    console.log(1);
+    $.holdReady(false);//释放掉
+});
+
+$.holdReady(true);//hold住
+$.getScript('b.js',function(){//异步的
+    console.log(2);
+    $.holdReady(false);//释放掉
+});
+
+$(function(){
+    console.log(2)
+});
+</script>
+</body>
+</html>

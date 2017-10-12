@@ -91,10 +91,10 @@ var
 	},
 
 	// The ready event handler and self cleanup method
-	completed = function() {
+	completed = function() {//移除两个监听
 		document.removeEventListener( "DOMContentLoaded", completed, false );
 		window.removeEventListener( "load", completed, false );
-		jQuery.ready();
+		jQuery.ready();//只触发一次
 	};
 
 /*chao:jQuery.fn就是jQuery.prototype*/
@@ -375,12 +375,12 @@ jQuery.extend({
 
 	// A counter to track how many items to wait for before
 	// the ready event fires. See #6781
-	readyWait: 1,
+	readyWait: 1,//计算hold的次数
 
 	// Hold (or release) the ready event
-	holdReady: function( hold ) {
+	holdReady: function( hold ) {//推迟dom触发 可以hold很多次
 		if ( hold ) {
-			jQuery.readyWait++;
+			jQuery.readyWait++;//要先处理的文件有很多的时候
 		} else {
 			jQuery.ready( true );
 		}
@@ -403,10 +403,11 @@ jQuery.extend({
 		}
 
 		// If there are functions bound, to execute
-		readyList.resolveWith( document, [ jQuery ] );
+		readyList.resolveWith( document, [ jQuery ] );//改变this为document，传入jQuery参数
 
 		// Trigger any bound ready events
-		if ( jQuery.fn.trigger ) {
+		//处理  $(document).on('ready',function(){})的写法
+		if ( jQuery.fn.trigger ) {//有trigger方法时
 			jQuery( document ).trigger("ready").off("ready");
 		}
 	},
@@ -825,19 +826,21 @@ jQuery.extend({
 });
 
 jQuery.ready.promise = function( obj ) {
-	if ( !readyList ) {
+	if ( !readyList ) {//只走一次，因为走完了都会return readyList
 
 		readyList = jQuery.Deferred();
 
 		// Catch cases where $(document).ready() is called after the browser event has already occurred.
 		// we once tried to use readyState "interactive" here, but it caused issues like the one
 		// discovered by ChrisS here: http://bugs.jquery.com/ticket/12282#comment:15
-		if ( document.readyState === "complete" ) {
+		if ( document.readyState === "complete" ) {//dom加载完成
 			// Handle it asynchronously to allow scripts the opportunity to delay ready
-			setTimeout( jQuery.ready );
+			setTimeout( jQuery.ready );//防止ie 中dom快完成时会提前触发的bug
 
-		} else {
-
+		} else {//dom没有加载完
+			//两个用于检测dom加载完成的事件,不管哪个事件先完成，都调用completed这个函数
+			//虽然监听了两次，但是completed只会执行一次
+			//http://www.jianshu.com/p/d851db5f2f30
 			// Use the handy event callback
 			document.addEventListener( "DOMContentLoaded", completed, false );
 
@@ -845,7 +848,7 @@ jQuery.ready.promise = function( obj ) {
 			window.addEventListener( "load", completed, false );
 		}
 	}
-	return readyList.promise( obj );
+	return readyList.promise( obj );//return promise外部不能修改状态
 };
 
 // Populate the class2type map
