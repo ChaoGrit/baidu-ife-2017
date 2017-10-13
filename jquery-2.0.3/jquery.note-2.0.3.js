@@ -446,6 +446,7 @@ jQuery.extend({
 		// - Any object or value whose internal [[Class]] property is not "[object Object]"
 		// - DOM nodes
 		// - window
+		//非object||dom节点|| window对象，返回false
 		if ( jQuery.type( obj ) !== "object" || obj.nodeType || jQuery.isWindow( obj ) ) {
 			return false;
 		}
@@ -454,7 +455,11 @@ jQuery.extend({
 		// The try/catch suppresses exceptions thrown when attempting to access
 		// the "constructor" property of certain host objects, ie. |window.location|
 		// https://bugzilla.mozilla.org/show_bug.cgi?id=814622
-		try {
+		//window.location这类的判断
+		try {//兼容方法的写法
+			//只有objec有isPrototypeOf这个方法
+			//arrray这类的伪对象只有在原型链上（原型链为object）有这个属性
+			//core_hasOwn->hasOwnProperty
 			if ( obj.constructor &&
 					!core_hasOwn.call( obj.constructor.prototype, "isPrototypeOf" ) ) {
 				return false;
