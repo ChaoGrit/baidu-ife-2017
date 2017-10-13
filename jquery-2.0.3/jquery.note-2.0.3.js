@@ -435,7 +435,7 @@ jQuery.extend({
 			return String( obj );
 		}
 		// Support: Safari <= 5.1 (functionish RegExp)
-		//class2type是前面定义的json对象,关于toString结果的键值对
+		//class2type是前面定义的json对象,关于toString.call(obj)结果为key的键值对
 		return typeof obj === "object" || typeof obj === "function" ?
 			class2type[ core_toString.call(obj) ] || "object" :
 			typeof obj;
