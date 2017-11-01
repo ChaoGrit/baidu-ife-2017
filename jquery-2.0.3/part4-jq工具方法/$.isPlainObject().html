@@ -20,14 +20,15 @@ var c = {property:b};
 var d = [];
 var e = document.getElementById("div");
 var f = window.location;
-console.log('{}:'+$.isPlainObject(a))//true
-console.log('{name:"xxx"}:'+$.isPlainObject(b))//true
-console.log('{property:{name:"xxx"}}:'+$.isPlainObject(c))//true
-// console.log(typeof(d))//object
-console.log('[]:'+$.isPlainObject(d))//false
-// console.log(typeof(e))//object
-console.log('document.getElementById("div") :'+$.isPlainObject(e))//false
-console.log('window.location:'+$.isPlainObject(f))//false
+var g = function(){};
+// console.log('{}:'+$.isPlainObject(a))//true
+// console.log('{name:"xxx"}:'+$.isPlainObject(b))//true
+// console.log('{property:{name:"xxx"}}:'+$.isPlainObject(c))//true
+// // console.log(typeof(d))//object
+// console.log('[]:'+$.isPlainObject(d))//false
+// // console.log(typeof(e))//object
+// console.log('document.getElementById("div") :'+$.isPlainObject(e))//false
+// console.log('window.location:'+$.isPlainObject(f))//false
 
 /*
 **
@@ -35,7 +36,27 @@ console.log('window.location:'+$.isPlainObject(f))//false
 **
 */
 
-console.log($.isEmptyObject(new Date()))//true
+// console.log($.isEmptyObject(new Date()))//true
+
+
+/*
+**
+**$.type()
+**
+*/
+var str = 'xxx';
+var arr = new Array();
+var error = new Error();
+var boolean = true;
+
+console.log('str: ',toString.call(str));
+console.log('arr: ',toString.call(arr));
+console.log('error: ',toString.call(error));
+console.log('boolean: ',toString.call(boolean));
+console.log($.type(str))
+console.log($.type(arr))
+console.log($.type(error))
+console.log($.type(boolean))
 
 </script>
 </body>

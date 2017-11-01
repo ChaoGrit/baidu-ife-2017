@@ -431,7 +431,7 @@ jQuery.extend({
 	},
 
 	type: function( obj ) {//typeof改良版
-		if ( obj == null ) {
+		if ( obj == null ) {//null == undefined
 			return String( obj );
 		}
 		// Support: Safari <= 5.1 (functionish RegExp)
@@ -481,7 +481,7 @@ jQuery.extend({
 		return true;
 	},
 
-	error: function( msg ) {
+	error: function( msg ) {//抛出异常，方便定位错位位置（调用的时候会传msg
 		throw new Error( msg );
 	},
 
