@@ -1,3 +1,7 @@
+(285,347) 给jq对象添加实例方法，挂在$上
+jQuery继承的方法，后续添加的方法可以通过这个extend添加到jQuery对象之中，
+方便扩展，而不是把所有代码一开始就写在prototype下面，这样不利于独立性和后期的维护或扩展
+
 jQuery.extend({
 	// Unique for each copy of jQuery on the page
 	//jQuery+版本号+随机数(replace将非数字的替换为空，比如说小数点)，确保唯一性，后面的数据缓存，ajax都有用到
