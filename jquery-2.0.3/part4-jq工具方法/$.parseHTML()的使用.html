@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title></title>
+</head>
+
+<body>
+    <div id="div">1111111111111111111111</div>
+
+    <script type="text/javascript" src="../jquery-2.0.3.js"></script>
+    <script type="text/javascript">
+        var str = '<li>1</li><li>2</li><li>3</li><script>alert(1)<\/script>';//闭合标签的时候需要转义，不然会和外部的<script>形成闭合
+
+        var arr = jQuery.parseHTML(str, document, true);//传入str，document和是否传入<script>默认为false，返回一个数组
+        console.log(arr)
+        //arr->['li','li','li']
+
+    </script>
+</body>
+
+</html>
