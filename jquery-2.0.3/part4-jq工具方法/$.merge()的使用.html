@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title></title>
+</head>
+
+<body>
+    <div>if   =>  $.merge(['a','b'],['c','d'])</div>
+    <div>else =>  $.merge(['a','b'],{0:'c',1:'d'})</div>
+
+    <script type="text/javascript" src="../jquery-2.0.3.js"></script>
+    <script type="text/javascript">
+        
+        console.log($.merge({0:'a',1:'b',length:2},{0:'c',1:'d'}));
+        console.log($.merge({0:'a',1:'b'},{0:'c',1:'d'}));
+        console.log($.merge({0:'a',1:'b',length:6},{0:'c',1:'d'}));
+
+    </script>
+</body>
+
+</html>
