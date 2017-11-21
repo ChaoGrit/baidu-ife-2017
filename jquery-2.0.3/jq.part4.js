@@ -238,7 +238,7 @@ jQuery.extend({
 		if ( args ) {//私有的
 			if ( isArray ) {
 				for ( ; i < length; i++ ) {
-					value = callback.apply( obj[ i ], args );//参数个数不确定，直接传args
+					value = callback.apply( obj[ i ], args );//参数个数不确定，直接传args,回调函数中的this指向obj[i]
 
 					if ( value === false ) {//如果return false跳出循环
 						break;
@@ -246,7 +246,7 @@ jQuery.extend({
 				}
 			} else {
 				for ( i in obj ) {
-					value = callback.apply( obj[ i ], args );
+					value = callback.apply( obj[ i ], args );//回调函数中的this指向obj[i]
 
 					if ( value === false ) {
 						break;

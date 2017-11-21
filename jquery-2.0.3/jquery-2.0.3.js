@@ -2864,7 +2864,7 @@ function createOptions( options ) {
  * By default a callback list will act like an event callback list and can be
  * "fired" multiple times.
  *
- * Possible options:
+ * Possible options://option有四个配置
  *
  *	once:			will ensure the callback list can only be fired once (like a Deferred)
  *

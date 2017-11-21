@@ -867,17 +867,17 @@ function isArraylike( obj ) {
 	var length = obj.length,
 		type = jQuery.type( obj );
 
-	if ( jQuery.isWindow( obj ) ) {
+	if ( jQuery.isWindow( obj ) ) {//非window
 		return false;
 	}
 
-	if ( obj.nodeType === 1 && length ) {
+	if ( obj.nodeType === 1 && length ) {//元素节点&&有长度=>类数组
 		return true;
 	}
 
 	return type === "array" || type !== "function" &&
-		( length === 0 ||
-		typeof length === "number" && length > 0 && ( length - 1 ) in obj );
+		( length === 0 ||//对0的情况要单独判断
+		typeof length === "number" && length > 0 && ( length - 1 ) in obj );//obj对象中有key为length-1的属性
 }
 
 // All jQuery objects should point back to these
