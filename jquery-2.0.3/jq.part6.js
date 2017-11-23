@@ -25,10 +25,14 @@ jQuery.Callbacks = function (options) {
 
     // Convert options from String-formatted to Object-formatted if needed
     // (we check in cache first)
-    options = typeof options === "string" ?
+    options = typeof options === "string" ?//options是否是字符串
         (optionsCache[options] || createOptions(options)) :
         jQuery.extend({}, options);
 
+    //optionsCache:{
+	//	options: {once:true,memory:true,unique:true,stopOnFalse}
+    //}
+    
     var // Last fire value (for non-forgettable lists)
         memory,//触发所有add的函数，即使add在fire之后，相对于函数声明提前
         // Flag to know if list was already fired
@@ -79,18 +83,18 @@ jQuery.Callbacks = function (options) {
             add: function () {
                 if (list) {
                     // First, we save the current length
-                    var start = list.length;
+                    var start = list.length;//add的时候都会记录之前数组的长度
                     (function add(args) {//针对 $.Callback().add(fn1,fn2)的情况
                         jQuery.each(args, function (_, arg) {
                             var type = jQuery.type(arg);
                             if (type === "function") {
-                                if (!options.unique || !self.has(arg)) {//当传入unique的时候会判断函数的唯一性
+                                if (!options.unique || !self.has(arg)) {//option中没有unique参数||list中没有该函数
                                     list.push(arg);//就是往list中加函数
                                 }
                             } else if (arg && arg.length && type !== "string") {//传入add([fn1,fn2])
                                 // Inspect recursively
                                 add(arg);//递归
-                            }
+                            } 
                         });
                     })(arguments);
                     // Do we need to add the callbacks to the
@@ -101,7 +105,7 @@ jQuery.Callbacks = function (options) {
                         // we should call right away
                     } else if (memory) {//如果memory为真的话，就调用一下fire
                         firingStart = start;
-                        fire(memory);
+                        fire(memory);//相当于后面的add方法就等同于fire方法，只不过是fire当条
                     }
                 }
                 return this;

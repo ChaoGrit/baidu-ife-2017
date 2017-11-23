@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	<p>$.Callback()</p>
+
+<script type="text/javascript" src="../jquery-2.0.3.js"></script>
+<script type="text/javascript">
+/*
+** 方便管理不同作用域下的函数
+**执行的时候只需要执行fire()就可以了，函数过多的情况下不会落下
+**
+**
+**
+*/
+var cb = $.Callbacks();
+
+function fn1(){
+    console.log(1);
+}
+cb.add(fn1);//这边没有;会报错！！！
+
+(function(){
+    function fn2(){
+        console.log(2);
+    }
+    cb.add(fn2);
+})()
+
+cb.fire()
+
+</script>
+</body>
+</html>

@@ -29,11 +29,12 @@ function fn3(){
 // var cb = $.Callbacks('memory');
 // var cb = $.Callbacks('unique');
 var cb = $.Callbacks('stopOnFalse');
-cb.add(fn1);
+cb.add(fn1);//cb.add(fn1,fn2,fn3)
 // cb.fire();
 cb.add(fn2);
 cb.add(fn2);
 cb.add(fn3);
+cb.remove(fn2)//把所有的fn2都remove掉了，不管前面添加了几个
 cb.fire();
 </script>
 </body>

@@ -2867,10 +2867,18 @@ var optionsCache = {};
 // Convert String-formatted options into Object-formatted ones and store in cache
 function createOptions( options ) {
 	var object = optionsCache[ options ] = {};
+	//非空格进行分割，存到optionsCache中
 	jQuery.each( options.match( core_rnotwhite ) || [], function( _, flag ) {
 		object[ flag ] = true;
 	});
 	return object;
+	//object格式
+	//options = 'once memory'
+	//options:{once:true,memory:true}
+	//optionsCache:{
+	//	'once memory': {once:true,memory:true}
+	//}
+	//
 }
 
 /*
