@@ -238,7 +238,7 @@ jQuery.extend({
 		if ( args ) {//私有的
 			if ( isArray ) {
 				for ( ; i < length; i++ ) {
-					value = callback.apply( obj[ i ], args );//参数个数不确定，直接传args
+					value = callback.apply( obj[ i ], args );//参数个数不确定，直接传args,回调函数中的this指向obj[i]
 
 					if ( value === false ) {//如果return false跳出循环
 						break;
@@ -246,7 +246,7 @@ jQuery.extend({
 				}
 			} else {
 				for ( i in obj ) {
-					value = callback.apply( obj[ i ], args );
+					value = callback.apply( obj[ i ], args );//回调函数中的this指向obj[i]
 
 					if ( value === false ) {
 						break;
@@ -381,14 +381,14 @@ jQuery.extend({
 	},
 
 	// A global GUID counter for objects
-	guid: 1,
+	guid: 1,//唯一标识符，将事件和函数进行关联（如on，off）
 
 	// Bind a function to a context, optionally partially applying any
 	// arguments.
 	proxy: function( fn, context ) {
 		var tmp, args, proxy;
 
-		if ( typeof context === "string" ) {
+		if ( typeof context === "string" ) {//支持简写 $.proxy(context,'fnName')
 			tmp = fn[ context ];
 			context = fn;
 			fn = tmp;
@@ -401,8 +401,10 @@ jQuery.extend({
 		}
 
 		// Simulated bind
-		args = core_slice.call( arguments, 2 );
+		//arr.slice(begin,end),begin从0开始
+		args = core_slice.call( arguments, 2 );//arguments是伪数组，2是截取的起始位置
 		proxy = function() {
+			//注，这边的arguments是proxy函数的arguments
 			return fn.apply( context || this, args.concat( core_slice.call( arguments ) ) );
 		};
 
@@ -414,16 +416,18 @@ jQuery.extend({
 
 	// Multifunctional method to get and set values of a collection
 	// The value/s can optionally be executed if it's a function
+	//value的set/get方法，如$().css()、$().attr()
+	//elems:元素，fn:回调，key:属性名称，value：属性值，chainable：真为设置值，假为取值
 	access: function( elems, fn, key, value, chainable, emptyGet, raw ) {
 		var i = 0,
 			length = elems.length,
 			bulk = key == null;
 
 		// Sets many values
-		if ( jQuery.type( key ) === "object" ) {
+		if ( jQuery.type( key ) === "object" ) {//传入的key为对象的时候
 			chainable = true;
 			for ( i in key ) {
-				jQuery.access( elems, fn, i, key[i], true, emptyGet, raw );
+				jQuery.access( elems, fn, i, key[i], true, emptyGet, raw );//递归，一组组执行
 			}
 
 		// Sets one value
@@ -434,14 +438,14 @@ jQuery.extend({
 				raw = true;
 			}
 
-			if ( bulk ) {
+			if ( bulk ) {//没有传key的情况，就看value
 				// Bulk operations run against the entire set
-				if ( raw ) {
+				if ( raw ) {//value不是函数，是字符串
 					fn.call( elems, value );
 					fn = null;
 
 				// ...except when executing function values
-				} else {
+				} else {//value为函数时
 					bulk = fn;
 					fn = function( elem, key, value ) {
 						return bulk.call( jQuery( elem ), value );
@@ -455,21 +459,22 @@ jQuery.extend({
 				}
 			}
 		}
-
+		//获取属性
 		return chainable ?
 			elems :
 
 			// Gets
 			bulk ?
-				fn.call( elems ) :
-				length ? fn( elems[0], key ) : emptyGet;
+				fn.call( elems ) ://没有key时
+				length ? fn( elems[0], key ) : emptyGet;//有key，看看length存不存在
 	},
 
-	now: Date.now,
+	now: Date.now,//函数
 
 	// A method for quickly swapping in/out CSS properties to get correct calculations.
 	// Note: this method belongs to the css module but it's needed here for the support module.
 	// If support gets modularized, this method should be moved back to the css module.
+	//场景：要获取display为none元素的宽度，就要先将disply:none转化为visibility:hidden;position:absolute;就可以获取到这个元素的宽度了
 	swap: function( elem, options, callback, args ) {
 		var ret, name,
 			old = {};

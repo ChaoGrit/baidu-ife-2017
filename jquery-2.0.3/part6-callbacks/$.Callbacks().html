@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	<p>$.Callback()</p>
+
+<script type="text/javascript" src="../jquery-2.0.3.js"></script>
+<script type="text/javascript">
+/*
+**var cb = $.Callbacks(option);
+**once对应只能fire()一次
+**memory可以把后面add的function一起触发了
+**unique只可以fire()不同的函数，会对add加的函数进行去重
+**stopOnFalse 如果上一个函数返回值为false，会阻止下一个函数的执行
+*/
+function fn1(){
+    console.log(1);
+}
+function fn2(){
+    console.log(2);
+    return false;
+}
+function fn3(){
+    console.log(3);
+}
+// var cb = $.Callbacks('once');
+// var cb = $.Callbacks('memory');
+// var cb = $.Callbacks('unique');
+var cb = $.Callbacks('stopOnFalse');
+cb.add(fn1);//cb.add(fn1,fn2,fn3)
+// cb.fire();
+cb.add(fn2);
+cb.add(fn2);
+cb.add(fn3);
+cb.remove(fn2)//把所有的fn2都remove掉了，不管前面添加了几个
+cb.fire();
+</script>
+</body>
+</html>
