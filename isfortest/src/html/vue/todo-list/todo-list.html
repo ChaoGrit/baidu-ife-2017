@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>to do list</title>
+	<link rel="stylesheet" type="text/css" href="todo-list.css">
+</head>
+<body>
+	<div id="todo-list">
+		<section class="">
+			<input class="todo-input" @keyup.enter="addTodo" v-model="whattodo" autofocus placeholder="what you want to do?">
+			<span class="btn-group">
+				<a v-for="item in btnGroup" :class="{active: select == item.status}" class="btn" href="javascript:;" @click="changeStatus(item)">{{item.title}}</a>
+				<!-- <a :class="{active: select == 'all'}" class="btn" href="#/all">全部</a>
+				<a :class="{active: select == 'left'}" class="btn" href="#/left">未完成</a>
+				<a :class="{active: select == 'done'}" class="btn" href="#/done">已完成</a> -->
+			</span>
+			<a @click="removeDone" class="btn-delete" href="javascript:;">删除已完成</a>
+		</section>
+		<section>
+			<div><strong>{{remaining}}</strong><span class="unit">{{ remaining | pluralize }}</span>left</div>
+		</section>
+		<section>
+			<ul class="todo-list">
+				<li v-for="item in filterList" :class="{editing:item == editItem}">
+				<div class="view">
+					<input type="checkbox" v-model="item.hasDone">
+					<label :class={finished:item.hasDone} @dblclick="editTodo(item)">{{item.text}}</label>
+					<a href="javascript:;" @click="removeItem(item)">删除</a>
+				</div>
+				<input class="edit" type="text" v-model="item.text" v-autofocus @blur="doneEdit(item)" @keyup.enter="doneEdit(item)" @keyup.esc="cancelEdit(item)"/>
+				</li>
+			</ul>
+		</section>
+	</div>
+<script type="text/javascript" src="vue.2.0.js"></script>
+<script type="text/javascript" src="todo-list.js"></script>
+</body>
+</html>
