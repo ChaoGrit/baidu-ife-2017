@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>你真的懂This吗</title>
+</head>
+  <p>关于This的指向，闭包，立即执行函数，块级作用域</p>
+  <p>自己对闭包里的参数变化不熟悉</p>
+  <div><a href="https://mp.weixin.qq.com/s/dG5ljJCjpM5DM938_XF_pg">https://mp.weixin.qq.com/s/dG5ljJCjpM5DM938_XF_pg</a></div>
+<body>
+
+
+  <script type="text/javascript">
+
+    var number = 5;
+    var obj = {
+      number: 3,
+      fn1: (function () {//立即执行函数，声明的时候就会执行一次
+        var number;
+        this.number *= 2;
+        number = number * 2;
+        number = 3;//这只会执行一次，就是声明的时候立即执行这一次，但是return的函数是可以取到number的（闭包：获取外部函数变量的函数）
+        //闭包里的number是一直存在的
+        return function () {//闭包
+          var num = this.number;
+          this.number *= 2;
+          console.log(num);
+          number *= 3;//每次闭包里的number都会，函数被调用一次，*3一次
+          console.log(number);
+        }
+      })()
+    }
+    var fn1 = obj.fn1;
+    fn1.call(null);
+    obj.fn1();
+    // obj.fn1();//number=81
+    console.log(window.number);
+  </script>
+</body>
+
+</html>
